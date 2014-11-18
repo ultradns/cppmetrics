@@ -110,49 +110,15 @@ set (cppmetrics_TEST_SOURCES
     ${cppmetrics_graphite_TEST_SOURCES}
 )
 
-# Setup the vendor dist library.
-IF (UNIX)
-    IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mtune=auto -D__APPLE__ -stdlib=libstdc++")
-        IF (NOT DEFINED VENDOR_DIST_DIR)
-            set (VENDOR_DIST_DIR ${CMAKE_SOURCE_DIR}/vendor_dist_mac/dist/Darwin_x86_64/)
-        ENDIF ()
-      ELSE ()
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mtune=k8")   
-        set (BOOST_LD_FLAGS "${BOOST_LD_FLAGS} -lpthread -lrt")
-        IF (NOT DEFINED VENDOR_DIST_DIR)
-            set (VENDOR_TAG trunk_85459)
-            set (VENDOR_DIST_ENV Linux_x86_64)
-            set (VENDOR_DIST vendor-dist)
-            set (VENDOR_DIST_DIR ${CMAKE_CURRENT_BINARY_DIR}/vendor-dist/dist/Linux_x86_64/)
-            add_custom_command(OUTPUT ${VENDOR_DIST}
-                COMMAND mkdir ${VENDOR_DIST}
-                # CMAKE has problems with space delimited strings.
-                COMMAND svn export --username $ENV{SVN_USERNAME} --password $ENV{SVN_PASSWORD} --no-auth-cache https://svn.ultradns.net/svn/vendor/tags/${VENDOR_TAG}/dist/${VENDOR_DIST_ENV}.tgz ${VENDOR_DIST}/${VENDOR_DIST_ENV}.tgz
-                COMMAND cd ${VENDOR_DIST} && tar xf ${VENDOR_DIST_ENV}.tgz
-            )
-        ENDIF ()
-    ENDIF ()
-ENDIF ()
-
 set (GTEST_LD_FLAGS "${BOOST_LD_FLAGS} ${GLOG_LD_FLAGS} -lgtest_main -lgtest")
-
-add_custom_target(vendor_dist DEPENDS ${VENDOR_DIST})
-
-
 set (DIST_INCLUDE_DIR include/cppmetrics)
 
-# HACK: Remove any old versions of cppmetrics that are built as part of vendor-libs.            
-# cppmetrics is also built as part of the vendor-dist we need to clean up that before we proceed.
-# kind of chicken-egg problem.
-add_custom_target(clean_cppmetrics_from_vendor_dist 
-    COMMAND rm -rf ${VENDOR_DIST_DIR}/${DIST_INCLUDE_DIR}
-    COMMAND find ${VENDOR_DIST_DIR}/lib -name \"*cppmetrics*\" -exec rm -rf {} "\;"
-)
-
-include_directories (${VENDOR_DIST_DIR}/include src/) 
-link_directories (${VENDOR_DIST_DIR}/lib) 
-
+include_directories (src)
+find_package(Boost 1.46.0)
+if(Boost_FOUND)
+   include_directories (${Boost_INCLUDE_DIRS}) 
+   link_directories (${Boost_LIBRARIES}) 
+endif()
 
 install (FILES ${cppmetrics_global_EXTERNAL_HEADERS} DESTINATION ${DIST_INCLUDE_DIR})
 install (FILES ${cppmetrics_core_EXTERNAL_HEADERS} DESTINATION ${DIST_INCLUDE_DIR}/core)
