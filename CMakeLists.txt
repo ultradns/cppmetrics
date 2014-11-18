@@ -113,13 +113,14 @@ set (cppmetrics_TEST_SOURCES
 set (GTEST_LD_FLAGS "${BOOST_LD_FLAGS} ${GLOG_LD_FLAGS} -lgtest_main -lgtest")
 set (DIST_INCLUDE_DIR include/cppmetrics)
 
-include_directories (src)
 find_package(Boost 1.46.0)
 if(Boost_FOUND)
-   include_directories (${Boost_INCLUDE_DIRS}) 
-   link_directories (${Boost_LIBRARIES}) 
+   set (INCLUDE_DIRS ${Boost_INCLUDE_DIRS}) 
+   set (LIB_DIRS ${Boost_LIBRARIES}) 
 endif()
 
+include_directories (src ${INCLUDE_DIRS})
+link_directories (${LIB_DIRS}) 
 install (FILES ${cppmetrics_global_EXTERNAL_HEADERS} DESTINATION ${DIST_INCLUDE_DIR})
 install (FILES ${cppmetrics_core_EXTERNAL_HEADERS} DESTINATION ${DIST_INCLUDE_DIR}/core)
 install (FILES ${cppmetrics_concurrent_EXTERNAL_HEADERS} DESTINATION ${DIST_INCLUDE_DIR}/concurrent)
