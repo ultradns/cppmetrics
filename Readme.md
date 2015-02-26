@@ -5,6 +5,8 @@ The library implements the standard metrics primitives like Gauge, Counter, Hist
 implementations like the ConsoleReporter, GraphiteRepoter out of the box.
 Its written in C++98 to make the integration into existing pre-C++11 codebases easier and has the following dependencies
 
+## Build dependencies
+- cmake (>= 2.6.5)
 - Boost libraries (>= 1.46.0)
 - Google logging framework (>= 0.3.1)
 - gtest (>= 1.6.0, dependency for the unit tests only.)
@@ -12,11 +14,11 @@ Its written in C++98 to make the integration into existing pre-C++11 codebases e
 ##Building
 
 mkdir build
-cd build
-cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX=dist -DBOOST_DIR=<BOOST_BINARY_DISTRO> -DGLOG_DIR=<GLOG_BINARY_DISTRO> -DGTEST_DIR=<GTEST_BINARY_DISTRO> ../cppmetrics/
-make gtest
-make package
-make package_source
+- cd build
+- cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX=dist -DBOOST_DIR=<BOOST_BINARY_DISTRO> -DGLOG_DIR=<GLOG_BINARY_DISTRO> -DGTEST_DIR=<GTEST_BINARY_DISTRO> ../cppmetrics/
+- make gtest
+- make package
+- make package_source
 
 ##Code Snippet
 
