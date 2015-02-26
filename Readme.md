@@ -5,14 +5,15 @@ The library implements the standard metrics primitives like Gauge, Counter, Hist
 implementations like the ConsoleReporter, GraphiteRepoter out of the box.
 Its written in C++98 to make the integration into existing pre-C++11 codebases easier and has the following dependencies
 
-- Boost libraries.
-- Google logging framework.
-- gtest (Dependency for the unit tests only.)
+- Boost libraries (>= 1.46.0)
+- Google logging framework (>= 0.3.1)
+- gtest (>= 1.6.0, dependency for the unit tests only.)
 
 ##Building
 
 mkdir build
-cd build && cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX=dist ../ultracmetrics/
+cd build
+cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX=dist -DBOOST_DIR=<BOOST_BINARY_DISTRO> -DGLOG_DIR=<GLOG_BINARY_DISTRO> -DGTEST_DIR=<GTEST_BINARY_DISTRO> ../cppmetrics/
 make gtest
 make package
 make package_source
@@ -22,16 +23,18 @@ make package_source
 ```
 ####Using a Histogram or a timer or a meter..
 
-
 cppmetrics::core::MetricRegistryPtr registry(
             cppmetrics::core::MetricRegistry::DEFAULT_REGISTRY());
 
 ...
-registry->counter("sample_counter")->increment();
+cppmetrics::core::CounterPtr query_counter(registry->counter("get_requests"));
+...
+query_counter->increment();
 ...
 
 registry->meter("sample_meter")->mark();
 ...
+
 
 registry->histogram("sample_histogram")->update(sample_value);
 ...
@@ -67,16 +70,12 @@ struct GraphiteReporterOptions {
 class Controller : boost::noncopyable
 {
 public:
-    Controller() {};
-    ~Controller() {};
-    
     cppmetrics::core::MetricRegistryPtr getRegistry() {
         return core::MetricRegistry::DEFAULT_REGISTRY();
     }
     
     void configureAndStartGraphiteReporter(const GraphiteReporterOptions& graphite_options) {
-        if (!graphite_reporter_)
-        {
+        if (!graphite_reporter_) {
             const std::string& graphite_host(graphite_options.host_);
 
             boost::uint32_t graphite_port(graphite_options.port_);
