@@ -1,6 +1,6 @@
 ##Background
 
-cppmetrics is a C++ metrics library and considered as a port of the awesome [DropWizard metrics!](https://dropwizard.github.io/metrics/3.1.0/).
+cppmetrics is a C++ port of the [DropWizard metrics!](https://dropwizard.github.io/metrics/3.1.0/).
 The library implements the standard metrics primitives like Gauge, Counter, Histogram, Meter and Timer and the provides the reporter
 implementations like the ConsoleReporter, GraphiteRepoter out of the box.
 Its written in C++98 to make the integration into existing pre-C++11 codebases easier and has the following dependencies
