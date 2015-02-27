@@ -15,13 +15,13 @@ install:
   - echo "Dependencies root $DEPENDENCIES_ROOT"
   - mkdir -p $DEPENDENCIES_ROOT
   - echo `pwd`
-  - ./installDependencies $DEPENDENCIES_ROOT
+  - ./installDependencies.sh $DEPENDENCIES_ROOT
   
 before_script:
   - echo `pwd`
   - mkdir build
   - cd build
-  - cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX=dist -DGLOG_DIR=$DEPENDENCIES_LOCATION ../cppmetrics
+  - cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX=dist -DGLOG_DIR=$DEPENDENCIES_LOCATION ../
 
 script: make gtest
 
