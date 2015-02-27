@@ -7,7 +7,7 @@ compiler:
   - gcc
 
 before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && sudo apt-get install -y libboost-all-dev; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-add-repository ppa:boost-latest/ppa && sudo apt-get update && sudo apt-get install -y libboost-all1.54-dev; fi
 
 install:
   - echo "Dependencies root $DEPENDENCIES_ROOT"

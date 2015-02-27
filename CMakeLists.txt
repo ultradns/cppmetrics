@@ -120,12 +120,10 @@ set (GTEST_LD_FLAGS "${EXTRA_LD_FLAGS} ${BOOST_LD_FLAGS} ${GLOG_LD_FLAGS} -lgtes
 set (DIST_INCLUDE_DIR include/cppmetrics)
 
 IF (NOT DEFINED BOOST_DIR)
-    find_package(Boost 1.46.1)
+    find_package(Boost 1.53.0)
     if(Boost_FOUND)
-        MESSAGE(STATUS "1 BOOST dirs include=${Boost_INCLUDE_DIRS} lib=${Boost_LIBRARY_DIRS}")
         set (BOOST_INC_DIR ${Boost_INCLUDE_DIRS}) 
    	set (BOOST_LIB_DIR ${Boost_LIBRARY_DIRS}) 
-        MESSAGE(STATUS "2 BOOST dirs include=${BOOST_INC_DIR} lib=${BOOST_LIB_DIR}")
     else ()
         MESSAGE(STATUS "BOOST distro not found")
     endif()
