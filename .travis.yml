@@ -4,7 +4,7 @@ env:
   - DEPENDENCIES_ROOT=$PWD/dependencies
   - DEPENDENCIES_LOCATION=$DEPENDENCIES_ROOT/install
 
-compile:
+compiler:
   - gcc
 
 before_install:
