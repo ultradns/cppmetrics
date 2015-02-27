@@ -16,6 +16,11 @@ INCLUDE(CPack)
 set (cppmetrics_PREPROC_FLAGS -DBOOST_NO_CXX11_SMART_PTR)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O2 -Werror -Wall -Winit-self -m64 -pipe")
 
+# Last ditch effort : look for boost in /usr/local and /usr/lib
+IF (DEFINED INCLUDE_SYSTEM_DIRS)
+    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include/ -L/usr/lib")
+ENDIF()
+
 set (BOOST_LD_FLAGS "-lboost_timer -lboost_chrono -lboost_system -lboost_filesystem -lboost_thread -lboost_date_time -lpthread -lrt")
 set (GLOG_LD_FLAGS "-lglog")
 
@@ -128,12 +133,6 @@ ELSE ()
     set (BOOST_LIB_DIR ${BOOST_DIR}/lib)
 ENDIF ()
 
-# Last ditch effort : look for boost in /usr/local and /usr/lib
-IF (BOOST_INC_DIR STREQUAL "")
-    MESSAGE(STATUS "BOOST_INC_DIR not set.")
-    SET (BOOST_INC_DIR /usr/include/)
-    SET (BOOST_LIB_DIR /usr/lib/)
-ENDIF()
 
 IF (DEFINED GLOG_DIR)
     set (GLOG_INCLUDE_DIR ${GLOG_DIR}/include)
