@@ -16,13 +16,12 @@ install:
   - ./installDependencies.sh $DEPENDENCIES_ROOT
   
 before_script:
-  - echo `pwd`
   - mkdir build
   - cd build
   - DEPENDENCIES_LOCATION=$DEPENDENCIES_ROOT/install
   - cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX=dist -DGLOG_DIR=$DEPENDENCIES_LOCATION ../
 
-script: make gtest
+script: make gtest VERBOSE=ON
 
 branches:
   only:
