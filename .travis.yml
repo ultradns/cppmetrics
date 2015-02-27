@@ -1,0 +1,30 @@
+language: cpp
+
+env:
+  - DEPENDENCIES_ROOT=$PWD/dependencies
+  - DEPENDENCIES_LOCATION=$DEPENDENCIES_ROOT/install
+
+compile:
+  - gcc
+
+before_install:
+  - echo $LANG
+  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && sudo apt-get install -y boost-devel; fi
+
+install:
+  - mkdir -p $DEPENDENCIES_ROOT
+  - ./installDependencies $DEPENDENCIES_ROOT
+  
+before_script:
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX=dist -DGLOG_DIR=$DEPENDENCIES_LOCATION ../cppmetrics
+
+script: make gtest
+
+branches:
+  only:
+    - master
+
+os:
+  - linux
