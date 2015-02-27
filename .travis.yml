@@ -12,13 +12,15 @@ before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && sudo apt-get install -y libboost-all-dev; fi
 
 install:
+  - echo "Dependencies root $DEPENDENCIES_ROOT"
   - mkdir -p $DEPENDENCIES_ROOT
+  - echo `pwd`
   - ./installDependencies $DEPENDENCIES_ROOT
   
 before_script:
+  - echo `pwd`
   - mkdir build
   - cd build
-  - echo `pwd`
   - cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX=dist -DGLOG_DIR=$DEPENDENCIES_LOCATION ../cppmetrics
 
 script: make gtest
