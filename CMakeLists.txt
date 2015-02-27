@@ -18,7 +18,8 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O2 -Werror -Wall -Winit-self -m64 -
 
 # Last ditch effort : look for boost in /usr/local and /usr/lib
 IF (DEFINED INCLUDE_SYSTEM_DIRS)
-    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include/ -L/usr/lib")
+    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include")
+    SET (EXTRA_LD_FLAGS "-L/usr/lib")
 ENDIF()
 
 set (BOOST_LD_FLAGS "-lboost_timer -lboost_chrono -lboost_system -lboost_filesystem -lboost_thread -lboost_date_time -lpthread -lrt")
@@ -115,7 +116,7 @@ set (cppmetrics_TEST_SOURCES
     ${cppmetrics_graphite_TEST_SOURCES}
 )
 
-set (GTEST_LD_FLAGS "${BOOST_LD_FLAGS} ${GLOG_LD_FLAGS} -lgtest_main -lgtest")
+set (GTEST_LD_FLAGS "${EXTRA_LD_FLAGS} ${BOOST_LD_FLAGS} ${GLOG_LD_FLAGS} -lgtest_main -lgtest")
 set (DIST_INCLUDE_DIR include/cppmetrics)
 
 IF (NOT DEFINED BOOST_DIR)
