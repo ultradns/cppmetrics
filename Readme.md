@@ -30,8 +30,8 @@ not turned off by default but can be turned on easily if required.
 
 ##Sample code snippet
 
-``` cpp
 ####Using a Histogram or a timer or a meter..
+``` cpp
 #include <cppmetrics/cppmetrics.h>
 ...
 
