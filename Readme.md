@@ -7,7 +7,7 @@ Its written in C++98 to make the integration into existing pre-C++11 codebases e
 
 ## Build dependencies
 - cmake (>= 2.6.5)
-- boost libraries (>= 1.46.0)
+- boost libraries (>= 1.53.0)
 - google logging framework (>= 0.3.1)
 - gtest (>= 1.6.0, dependency for the unit tests only.)
 
