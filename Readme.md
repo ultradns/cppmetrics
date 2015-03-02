@@ -5,6 +5,8 @@ The library implements the standard metrics primitives like Gauge, Counter, Hist
 implementations like the ConsoleReporter, GraphiteRepoter out of the box.
 Its written in C++98 to make the integration into existing pre-C++11 codebases easier and has the following dependencies
 
+[![Build Status](https://travis-ci.org/ultradns/cppmetrics.png)](https://travis-ci.org/ultradns/cppmetrics)
+
 ## Build dependencies
 - cmake (>= 2.6.5)
 - boost libraries (>= 1.53.0)
