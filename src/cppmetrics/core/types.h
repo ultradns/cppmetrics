@@ -19,7 +19,7 @@
 #include <boost/chrono.hpp>
 namespace cppmetrics {
 namespace core {
-	typedef boost::chrono::high_resolution_clock Clock;
+typedef boost::chrono::high_resolution_clock Clock;
 }
 }
 

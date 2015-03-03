@@ -26,14 +26,17 @@ namespace core {
  */
 class Sampling {
 public:
-	enum SampleType { kUniform, kBiased };
-	virtual ~Sampling() {}
+    enum SampleType {
+        kUniform, kBiased
+    };
+    virtual ~Sampling() {
+    }
 
-	/**
-	 * Returns the snapshot of values in the sample.
-	 * @return the snapshot of values in the sample.
-	 */
-	virtual SnapshotPtr getSnapshot() const = 0;
+    /**
+     * Returns the snapshot of values in the sample.
+     * @return the snapshot of values in the sample.
+     */
+    virtual SnapshotPtr getSnapshot() const = 0;
 };
 
 } /* namespace core */

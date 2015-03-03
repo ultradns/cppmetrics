@@ -24,12 +24,13 @@ namespace core {
  */
 class Reporter {
 public:
-	virtual ~Reporter() {}
+    virtual ~Reporter() {
+    }
 
-	/**
-	 * reports the metrics.
-	 */
-	virtual void report() = 0;
+    /**
+     * reports the metrics.
+     */
+    virtual void report() = 0;
 };
 
 } /* namespace core */

@@ -39,42 +39,42 @@ public:
      * Creates a new {@link UniformReservoir}.
      * @param size the number of samples to keep in the sampling reservoir
      */
-	UniformSample(boost::uint32_t reservoirSize = DEFAULT_SAMPLE_SIZE);
-	virtual ~UniformSample();
+    UniformSample(boost::uint32_t reservoirSize = DEFAULT_SAMPLE_SIZE);
+    virtual ~UniformSample();
 
-	/**
-	 * Clears the values in the sample.
-	 */
-	virtual void clear();
+    /**
+     * Clears the values in the sample.
+     */
+    virtual void clear();
 
     /**
      * Returns the number of values recorded.
      * @return the number of values recorded
      */
-	virtual boost::uint64_t size() const;
+    virtual boost::uint64_t size() const;
 
     /**
      * Adds a new recorded value to the sample.
      * @param value a new recorded value
      */
-	virtual void update(boost::int64_t value);
+    virtual void update(boost::int64_t value);
 
     /**
      * Returns a snapshot of the sample's values.
      * @return a snapshot of the sample's values
      */
-	virtual SnapshotPtr getSnapshot() const;
+    virtual SnapshotPtr getSnapshot() const;
 
-	/**< The Maximum sample size at any given time. */
-	static const boost::uint64_t DEFAULT_SAMPLE_SIZE;
+    /**< The Maximum sample size at any given time. */
+    static const boost::uint64_t DEFAULT_SAMPLE_SIZE;
 private:
-	boost::uint64_t getRandom(boost::uint64_t count) const;
-	const boost::uint64_t reservoir_size_;
-	boost::atomic<boost::uint64_t> count_;
-	typedef std::vector<boost::int64_t> Int64Vector;
-	Int64Vector values_;
-	mutable boost::mt11213b rng_;
-	mutable boost::mutex mutex_;
+    boost::uint64_t getRandom(boost::uint64_t count) const;
+    const boost::uint64_t reservoir_size_;
+    boost::atomic<boost::uint64_t> count_;
+    typedef std::vector<boost::int64_t> Int64Vector;
+    Int64Vector values_;
+    mutable boost::mt11213b rng_;
+    mutable boost::mutex mutex_;
 };
 
 } /* namespace core */

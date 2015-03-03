@@ -29,56 +29,56 @@ namespace core {
  * An incrementing and decrementing counter metric.
  * thread-safety: thread safe
  */
-class Counter : public Metric {
+class Counter: public Metric {
 public:
 
-	/**
-	 * Constructor
-	 * @param n Initialize the counter with a value of \c n.
-	 */
-	Counter(boost::int64_t n = 0) :
-			count_(n) {
-	}
+    /**
+     * Constructor
+     * @param n Initialize the counter with a value of \c n.
+     */
+    Counter(boost::int64_t n = 0) :
+            count_(n) {
+    }
 
-	virtual ~Counter() {
-	}
+    virtual ~Counter() {
+    }
 
-	/**
-	 * @return the current value of the counter.
-	 */
-	boost::int64_t getCount() const {
-		return count_;
-	}
+    /**
+     * @return the current value of the counter.
+     */
+    boost::int64_t getCount() const {
+        return count_;
+    }
 
-	/**
-	 * @param n reset the counter to the value \c n.
-	 */
-	void setCount(boost::int64_t n) {
-		count_ = n;
-	}
+    /**
+     * @param n reset the counter to the value \c n.
+     */
+    void setCount(boost::int64_t n) {
+        count_ = n;
+    }
 
-	/**
-	 * @param n increment the counter by \c n
-	 */
-	void increment(boost::int64_t n = 1) {
-		count_ += n;
-	}
+    /**
+     * @param n increment the counter by \c n
+     */
+    void increment(boost::int64_t n = 1) {
+        count_ += n;
+    }
 
-	/**
-	 * @param n decrement the counter by \c n
-	 */
-	void decrement(boost::int64_t n = 1) {
-		count_ -= n;
-	}
+    /**
+     * @param n decrement the counter by \c n
+     */
+    void decrement(boost::int64_t n = 1) {
+        count_ -= n;
+    }
 
-	/**
-	 * Clears the counter, same as calling <code> setCount(0) </code>;
-	 */
-	void clear() {
-		setCount(0);
-	}
+    /**
+     * Clears the counter, same as calling <code> setCount(0) </code>;
+     */
+    void clear() {
+        setCount(0);
+    }
 private:
-	boost::atomic<boost::int64_t> count_;
+    boost::atomic<boost::int64_t> count_;
 };
 
 typedef boost::shared_ptr<Counter> CounterPtr;

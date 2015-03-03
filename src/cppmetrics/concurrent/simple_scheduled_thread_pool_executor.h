@@ -33,59 +33,61 @@ namespace concurrent {
 class SimpleScheduledThreadPoolExecutor {
 public:
 
-	/**
-	 * Creates a new instance with the given thread size.
-	 * @param pool_size The number of threads in the threadpool.
-	 */
-	SimpleScheduledThreadPoolExecutor(size_t pool_size);
+    /**
+     * Creates a new instance with the given thread size.
+     * @param pool_size The number of threads in the threadpool.
+     */
+    SimpleScheduledThreadPoolExecutor(size_t pool_size);
 
-	virtual ~SimpleScheduledThreadPoolExecutor();
+    virtual ~SimpleScheduledThreadPoolExecutor();
 
-	/**
-	 * Executes the give task at the configured interval rate until shutdown is called. The given command
-	 * is executed at a fixed rate and therefore there might be more than one command running at a time
-	 * depending on the duration of the command.
-	 * @param command The command to execute at fixed interval.
-	 * @param period The interval between the start of the tasks.
-	 */
-	virtual void scheduleAtFixedRate(boost::function<void()> command, boost::chrono::milliseconds period);
+    /**
+     * Executes the give task at the configured interval rate until shutdown is called. The given command
+     * is executed at a fixed rate and therefore there might be more than one command running at a time
+     * depending on the duration of the command.
+     * @param command The command to execute at fixed interval.
+     * @param period The interval between the start of the tasks.
+     */
+    virtual void scheduleAtFixedRate(boost::function<void()> command,
+            boost::chrono::milliseconds period);
 
-	/**
-	 * Executes the give task at the configured interval delay until shutdown is called. The given command
-	 * is executed at a fixed delay. There can be only one task instance running at a given time.
-	 * @param command The command to execute at fixed delay.
-	 * @param period The time period between the end of the tasks.
-	 */
-	virtual void scheduleAtFixedDelay(boost::function<void()> command, boost::chrono::milliseconds period);
+    /**
+     * Executes the give task at the configured interval delay until shutdown is called. The given command
+     * is executed at a fixed delay. There can be only one task instance running at a given time.
+     * @param command The command to execute at fixed delay.
+     * @param period The time period between the end of the tasks.
+     */
+    virtual void scheduleAtFixedDelay(boost::function<void()> command,
+            boost::chrono::milliseconds period);
 
-	/**
-	 * Shuts down the service, may or may not return immediately depending on the pending tasks.
-	 */
-	virtual void shutdown();
+    /**
+     * Shuts down the service, may or may not return immediately depending on the pending tasks.
+     */
+    virtual void shutdown();
 
-	/**
-	 * Shuts down the service, will return immediately.
-	 */
-	virtual void shutdownNow();
+    /**
+     * Shuts down the service, will return immediately.
+     */
+    virtual void shutdownNow();
 
-	/**
-	 * gets the threadpool state.
-	 * @return True if this is shutdown or shutting down, false otherwise.
-	 */
-	virtual bool isShutdown() const;
+    /**
+     * gets the threadpool state.
+     * @return True if this is shutdown or shutting down, false otherwise.
+     */
+    virtual bool isShutdown() const;
 private:
     void cancelTimers();
-	void timerHandler(const boost::system::error_code& ec, size_t timer_index);
+    void timerHandler(const boost::system::error_code& ec, size_t timer_index);
 
-	void scheduleTimer(boost::function<void()> task,
-			boost::chrono::milliseconds period, bool fixed_rate);
+    void scheduleTimer(boost::function<void()> task,
+            boost::chrono::milliseconds period, bool fixed_rate);
 
     boost::atomic<bool> running_;
     boost::asio::io_service io_service_;
     boost::scoped_ptr<boost::asio::io_service::work> work_ptr_;
     boost::thread_group thread_group_;
 
-	class TimerTask;
+    class TimerTask;
     typedef std::vector<TimerTask> TimerTasks;
     TimerTasks timer_tasks_;
     mutable boost::mutex timer_task_mutex_;

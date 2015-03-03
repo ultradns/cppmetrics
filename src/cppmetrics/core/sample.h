@@ -26,30 +26,31 @@ namespace core {
  */
 class Sample {
 public:
-	virtual ~Sample() {};
+    virtual ~Sample() {
+    }
 
-	/**
-	 * Clears the values in the sample.
-	 */
-	virtual void clear() = 0;
+    /**
+     * Clears the values in the sample.
+     */
+    virtual void clear() = 0;
 
     /**
      * Returns the number of values recorded.
      * @return the number of values recorded
      */
-	virtual boost::uint64_t size() const = 0;
+    virtual boost::uint64_t size() const = 0;
 
     /**
      * Adds a new recorded value to the sample.
      * @param value a new recorded value
      */
-	virtual void update(boost::int64_t value) = 0;
+    virtual void update(boost::int64_t value) = 0;
 
     /**
      * Returns a snapshot of the sample's values.
      * @return a snapshot of the sample's values
      */
-	virtual SnapshotPtr getSnapshot() const = 0;
+    virtual SnapshotPtr getSnapshot() const = 0;
 };
 
 } /* namespace core */

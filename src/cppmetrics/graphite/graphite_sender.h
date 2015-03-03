@@ -26,31 +26,32 @@ namespace graphite {
  */
 class GraphiteSender {
 public:
-	virtual ~GraphiteSender() {
-	}
+    virtual ~GraphiteSender() {
+    }
 
-	/**
-	 * Connects to the graphite sender
-	 * @return True on success, false otherwise.
-	 * @throws boost::system_error if there is a problem.
-	 */
-	virtual void connect() = 0;
+    /**
+     * Connects to the graphite sender
+     * @return True on success, false otherwise.
+     * @throws boost::system_error if there is a problem.
+     */
+    virtual void connect() = 0;
 
-	/**
-	 * Posts the metric name, value and timestamp to the graphite server.
-	 * @param name The name of the metric
-	 * @param value The value of the metric
-	 * @param timestamp The timestamp of the metric.
-	 * @return True on success false otherwise.
-	 * @throws boost::system_error if there is a problem.
-	 */
-	virtual void send(const std::string& name, const std::string& value,
-			boost::uint64_t timestamp) = 0;
+    /**
+     * Posts the metric name, value and timestamp to the graphite server.
+     * @param name The name of the metric
+     * @param value The value of the metric
+     * @param timestamp The timestamp of the metric.
+     * @return True on success false otherwise.
+     * @throws boost::system_error if there is a problem.
+     */
+    virtual void send(const std::string& name,
+            const std::string& value,
+            boost::uint64_t timestamp) = 0;
 
-	/**
-	 * Closes the connection.
-	 */
-	virtual void close() = 0;
+    /**
+     * Closes the connection.
+     */
+    virtual void close() = 0;
 };
 
 typedef boost::shared_ptr<GraphiteSender> GraphiteSenderPtr;

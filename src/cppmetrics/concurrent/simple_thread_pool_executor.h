@@ -27,41 +27,40 @@
 namespace cppmetrics {
 namespace concurrent {
 
-
 /**
  * A simple threadpool modeled after similar class in java.
  */
 class SimpleThreadPoolExecutor {
 public:
 
-	/**
-	 * Creates a new thread pool with the given number of threads.
-	 * @param thread_count The number of threads in the thread pool.
-	 */
-	SimpleThreadPoolExecutor(size_t thread_count);
+    /**
+     * Creates a new thread pool with the given number of threads.
+     * @param thread_count The number of threads in the thread pool.
+     */
+    SimpleThreadPoolExecutor(size_t thread_count);
 
-	virtual ~SimpleThreadPoolExecutor();
+    virtual ~SimpleThreadPoolExecutor();
 
-	/**
-	 * Executes the given task in one of the threads.
-	 * @param task The task to be executed.
-	 */
-	virtual void execute(boost::function<void()> command);
+    /**
+     * Executes the given task in one of the threads.
+     * @param task The task to be executed.
+     */
+    virtual void execute(boost::function<void()> command);
 
-	/**
-	 * Shuts down the service, may or may not return immediately.
-	 */
-	virtual void shutdown();
+    /**
+     * Shuts down the service, may or may not return immediately.
+     */
+    virtual void shutdown();
 
-	/**
-	 * Shuts down the service, will return immediately.
-	 */
-	virtual void shutdownNow();
+    /**
+     * Shuts down the service, will return immediately.
+     */
+    virtual void shutdownNow();
 
-	/**
-	 * gets the threadpool state.
-	 * @return True if this is shutdown or shutting down, false otherwise.
-	 */
+    /**
+     * gets the threadpool state.
+     * @return True if this is shutdown or shutting down, false otherwise.
+     */
     virtual bool isShutdown() const;
 
 private:

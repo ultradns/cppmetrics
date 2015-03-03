@@ -26,10 +26,11 @@ namespace core {
  */
 class Metric {
 public:
-	virtual ~Metric() = 0;
+    virtual ~Metric() = 0;
 };
 
-inline Metric::~Metric() {}
+inline Metric::~Metric() {
+}
 
 typedef boost::shared_ptr<Metric> MetricPtr;
 

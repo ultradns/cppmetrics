@@ -27,7 +27,6 @@
 #include "cppmetrics/core/types.h"
 #include "cppmetrics/core/sample.h"
 
-
 namespace cppmetrics {
 namespace core {
 
@@ -39,59 +38,61 @@ namespace core {
 class ExpDecaySample: public Sample {
 public:
 
-	/**
-	 * Creates a new {@link ExpDecaySample} of the given size and alpha factor.
-	 * @param size  the number of samples to keep in the sampling reservoir
-	 * @param alpha the exponential decay factor; the higher this is, the more biased the reservoir
-	 *              will be towards newer values
-	 */
-	ExpDecaySample(boost::uint32_t size = 1024, double alpha = DEFAULT_ALPHA);
-	virtual ~ExpDecaySample();
-	virtual void clear();
+    /**
+     * Creates a new {@link ExpDecaySample} of the given size and alpha factor.
+     * @param size  the number of samples to keep in the sampling reservoir
+     * @param alpha the exponential decay factor; the higher this is, the more biased the reservoir
+     *              will be towards newer values
+     */
+    ExpDecaySample(boost::uint32_t size = 1024, double alpha = DEFAULT_ALPHA);
+    virtual ~ExpDecaySample();
 
-	/**
-	 * Returns the number of values recorded.
-	 * @return the number of values recorded
-	 */
-	virtual boost::uint64_t size() const;
+    virtual void clear();
 
-	/**
-	 * Adds a new recorded value to the reservoir.
-	 * @param value a new recorded value
-	 */
-	virtual void update(boost::int64_t value);
+    /**
+     * Returns the number of values recorded.
+     * @return the number of values recorded
+     */
+    virtual boost::uint64_t size() const;
 
-	/**
-	 * Adds an old value with a fixed timestamp to the reservoir.
-	 * @param value     the value to be added
-	 * @param timestamp the epoch timestamp of {@code value} in seconds
-	 */
-	virtual void update(boost::int64_t value, const Clock::time_point& timestamp);
+    /**
+     * Adds a new recorded value to the reservoir.
+     * @param value a new recorded value
+     */
+    virtual void update(boost::int64_t value);
 
-	/**
-	 * Returns a snapshot of the reservoir's values.
-	 * @return a snapshot of the reservoir's values
-	 */
-	virtual SnapshotPtr getSnapshot() const;
+    /**
+     * Adds an old value with a fixed timestamp to the reservoir.
+     * @param value     the value to be added
+     * @param timestamp the epoch timestamp of {@code value} in seconds
+     */
+    virtual void update(boost::int64_t value,
+            const Clock::time_point& timestamp);
+
+    /**
+     * Returns a snapshot of the reservoir's values.
+     * @return a snapshot of the reservoir's values
+     */
+    virtual SnapshotPtr getSnapshot() const;
 
 private:
-	static const double DEFAULT_ALPHA;
-	static const Clock::duration RESCALE_THRESHOLD;
+    static const double DEFAULT_ALPHA;
+    static const Clock::duration RESCALE_THRESHOLD;
 
-	void rescaleIfNeeded(const Clock::time_point& when);
-	void rescale(const Clock::time_point& old_start_time);
+    void rescaleIfNeeded(const Clock::time_point& when);
+    void rescale(const Clock::time_point& old_start_time);
 
-	const double alpha_;
-	const boost::uint64_t reservoir_size_;
-	boost::atomic<boost::uint64_t> count_;
+    const double alpha_;
+    const boost::uint64_t reservoir_size_;
+    boost::atomic<boost::uint64_t> count_;
 
-	mutable boost::mutex mutex_;
-	Clock::time_point start_time_;
-	Clock::time_point next_scale_time_;
+    mutable boost::mutex mutex_;
+    Clock::time_point start_time_;
+    Clock::time_point next_scale_time_;
 
-	typedef std::map<double, boost::int64_t> Double2Int64Map;
-	Double2Int64Map values_;
-	mutable boost::mt11213b rng_;
+    typedef std::map<double, boost::int64_t> Double2Int64Map;
+    Double2Int64Map values_;
+    mutable boost::mt11213b rng_;
 };
 
 } /* namespace core */

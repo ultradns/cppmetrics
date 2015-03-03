@@ -30,31 +30,31 @@ namespace core {
  */
 class Metered: public Metric {
 public:
-	virtual ~Metered() {
-	}
-	/**
-	 * @returns the number of events that have been marked.
-	 */
-	virtual boost::uint64_t getCount() const = 0;
-	/**
-	 * @return the fifteen-minute exponentially-weighted moving average rate at which events have
-	 *         occurred since the meter was created.
-	 */
-	virtual double getFifteenMinuteRate() = 0;
-	/**
-	 * @return the fifteen-minute exponentially-weighted moving average rate at which events have
-	 *         occurred since the meter was created.
-	 */
-	virtual double getFiveMinuteRate() = 0;
-	/**
-	 * @return the fifteen-minute exponentially-weighted moving average rate at which events have
-	 *         occurred since the meter was created.
-	 */
-	virtual double getOneMinuteRate() = 0;
-	/**
-	 * @return the average rate at which events have occurred since the meter was created.
-	 */
-	virtual double getMeanRate() = 0;
+    virtual ~Metered() {
+    }
+    /**
+     * @returns the number of events that have been marked.
+     */
+    virtual boost::uint64_t getCount() const = 0;
+    /**
+     * @return the fifteen-minute exponentially-weighted moving average rate at which events have
+     *         occurred since the meter was created.
+     */
+    virtual double getFifteenMinuteRate() = 0;
+    /**
+     * @return the fifteen-minute exponentially-weighted moving average rate at which events have
+     *         occurred since the meter was created.
+     */
+    virtual double getFiveMinuteRate() = 0;
+    /**
+     * @return the fifteen-minute exponentially-weighted moving average rate at which events have
+     *         occurred since the meter was created.
+     */
+    virtual double getOneMinuteRate() = 0;
+    /**
+     * @return the average rate at which events have occurred since the meter was created.
+     */
+    virtual double getMeanRate() = 0;
 };
 
 typedef boost::shared_ptr<Metered> MeteredPtr;

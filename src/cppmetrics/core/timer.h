@@ -30,7 +30,6 @@
 #include "cppmetrics/core/meter.h"
 #include "cppmetrics/core/histogram.h"
 
-
 namespace cppmetrics {
 namespace core {
 
@@ -43,72 +42,72 @@ public:
     /**
      * Creates a new {@link Timer} using an {@link ExpDecaySample}.
      */
-	Timer();
-	virtual ~Timer();
+    Timer();
+    virtual ~Timer();
 
-	/**
-	 * @returns the number of events that have been measured.
-	 */
-	virtual boost::uint64_t getCount() const;
+    /**
+     * @returns the number of events that have been measured.
+     */
+    virtual boost::uint64_t getCount() const;
 
-	/**
-	 * @return the fifteen-minute exponentially-weighted moving average rate at which events have
-	 *         occurred since the timer was created.
-	 */
-	virtual double getFifteenMinuteRate();
+    /**
+     * @return the fifteen-minute exponentially-weighted moving average rate at which events have
+     *         occurred since the timer was created.
+     */
+    virtual double getFifteenMinuteRate();
 
-	/**
-	 * @return the five-minute exponentially-weighted moving average rate at which events have
-	 *         occurred since the timer was created.
-	 */
-	virtual double getFiveMinuteRate();
+    /**
+     * @return the five-minute exponentially-weighted moving average rate at which events have
+     *         occurred since the timer was created.
+     */
+    virtual double getFiveMinuteRate();
 
-	/**
-	 * @return the one-minute exponentially-weighted moving average rate at which events have
-	 *         occurred since the timer was created.
-	 */
-	virtual double getOneMinuteRate();
+    /**
+     * @return the one-minute exponentially-weighted moving average rate at which events have
+     *         occurred since the timer was created.
+     */
+    virtual double getOneMinuteRate();
 
-	/**
-	 * @return the average rate at which events have occurred since the meter was created.
-	 */
-	virtual double getMeanRate();
+    /**
+     * @return the average rate at which events have occurred since the meter was created.
+     */
+    virtual double getMeanRate();
 
-	/**
-	 * @return the current snapshot based on the sample.
-	 */
-	virtual SnapshotPtr getSnapshot() const;
+    /**
+     * @return the current snapshot based on the sample.
+     */
+    virtual SnapshotPtr getSnapshot() const;
 
-	/**
-	 * Clears the underlying metrics.
-	 */
-	void clear();
+    /**
+     * Clears the underlying metrics.
+     */
+    void clear();
 
     /**
      * Adds a recorded duration.
      * @param duration the length of the duration in nanos.
      */
-	void update(boost::chrono::nanoseconds duration);
+    void update(boost::chrono::nanoseconds duration);
 
-	/**
-	 * Creates a new TimerContext instance that measures the duration and updates the
-	 * duration before the instance goes out of scope.
-	 * @return The TimerContext object.
-	 * @note The TimerContextPtr should not be shared.
-	 */
-	TimerContextPtr timerContextPtr() {
-		return boost::shared_ptr<TimerContext>(new TimerContext(*this));
-	}
+    /**
+     * Creates a new TimerContext instance that measures the duration and updates the
+     * duration before the instance goes out of scope.
+     * @return The TimerContext object.
+     * @note The TimerContextPtr should not be shared.
+     */
+    TimerContextPtr timerContextPtr() {
+        return boost::shared_ptr<TimerContext>(new TimerContext(*this));
+    }
 
-	/**
-	 * Times the duration of a function that will be executed internally and updates the duration.
-	 * @param The fn to be timed.
-	 */
-	void time(boost::function<void()> fn);
+    /**
+     * Times the duration of a function that will be executed internally and updates the duration.
+     * @param The fn to be timed.
+     */
+    void time(boost::function<void()> fn);
 
 private:
-	Meter meter_;			/**< The underlying meter object */
-	Histogram histogram_;	/**< The underlying histogram object */
+    Meter meter_; /**< The underlying meter object */
+    Histogram histogram_; /**< The underlying histogram object */
 };
 
 typedef boost::shared_ptr<Timer> TimerPtr;

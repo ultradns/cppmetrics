@@ -20,37 +20,36 @@
 namespace cppmetrics {
 namespace core {
 
-
 Histogram::Histogram(SampleType sample_type) {
-	if (sample_type == kUniform) {
-		sample_.reset(new UniformSample());
-	} else if (sample_type == kBiased) {
-		sample_.reset(new ExpDecaySample());
-	} else {
-		throw std::invalid_argument("invalid sample_type.");
-	}
-	clear();
+    if (sample_type == kUniform) {
+        sample_.reset(new UniformSample());
+    } else if (sample_type == kBiased) {
+        sample_.reset(new ExpDecaySample());
+    } else {
+        throw std::invalid_argument("invalid sample_type.");
+    }
+    clear();
 }
 
 Histogram::~Histogram() {
 }
 
 void Histogram::clear() {
-	count_ = 0;
-	sample_->clear();
+    count_ = 0;
+    sample_->clear();
 }
 
 boost::uint64_t Histogram::getCount() const {
-	return count_;
+    return count_;
 }
 
 SnapshotPtr Histogram::getSnapshot() const {
-	return sample_->getSnapshot();
+    return sample_->getSnapshot();
 }
 
 void Histogram::update(boost::int64_t value) {
-	++count_;
-	sample_->update(value);
+    ++count_;
+    sample_->update(value);
 }
 
 } /* namespace core */

@@ -21,19 +21,16 @@ namespace cppmetrics {
 namespace core {
 
 ConsoleReporter::ConsoleReporter(MetricRegistryPtr registry,
-		std::ostream& ostr,
-		boost::chrono::milliseconds rate_unit)
-			: ScheduledReporter(registry, rate_unit) ,
-			  ostr_(ostr) {
-	ostr_.setf(std::ios_base::fixed, std::ios_base::floatfield);
-	ostr_.width(2);
-	ostr_.precision(2);
+        std::ostream& ostr,
+        boost::chrono::milliseconds rate_unit) :
+        ScheduledReporter(registry, rate_unit), ostr_(ostr) {
+    ostr_.setf(std::ios_base::fixed, std::ios_base::floatfield);
+    ostr_.width(2);
+    ostr_.precision(2);
 }
 
 ConsoleReporter::~ConsoleReporter() {
 }
-
-
 
 void ConsoleReporter::report(core::CounterMap counter_map,
 		core::HistogramMap histogram_map,

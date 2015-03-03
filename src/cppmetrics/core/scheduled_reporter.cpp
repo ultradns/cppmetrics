@@ -32,46 +32,46 @@ ScheduledReporter::ScheduledReporter(MetricRegistryPtr registry, boost::chrono::
 }
 
 ScheduledReporter::~ScheduledReporter() {
-	stop();
+    stop();
 }
 
 void ScheduledReporter::report() {
-	CounterMap counter_map(metric_registry_->getCounters());
-	HistogramMap histogram_map(metric_registry_->getHistograms());
-	MeteredMap meter_map(metric_registry_->getMeters());
-	TimerMap timer_map(metric_registry_->getTimers());
-	GaugeMap gauge_map(metric_registry_->getGauges());
-	report(counter_map, histogram_map, meter_map, timer_map, gauge_map);
+    CounterMap counter_map(metric_registry_->getCounters());
+    HistogramMap histogram_map(metric_registry_->getHistograms());
+    MeteredMap meter_map(metric_registry_->getMeters());
+    TimerMap timer_map(metric_registry_->getTimers());
+    GaugeMap gauge_map(metric_registry_->getGauges());
+    report(counter_map, histogram_map, meter_map, timer_map, gauge_map);
 }
 
 void ScheduledReporter::start(boost::chrono::milliseconds period) {
-	if (!running_) {
-		running_ = true;
-		scheduled_executor_.scheduleAtFixedDelay(
-				boost::bind(&ScheduledReporter::report, this), period);
-	}
+    if (!running_) {
+        running_ = true;
+        scheduled_executor_.scheduleAtFixedDelay(
+                boost::bind(&ScheduledReporter::report, this), period);
+    }
 }
 
 void ScheduledReporter::stop() {
-	if (running_) {
-		running_ = false;
-		scheduled_executor_.shutdown();
-	}
+    if (running_) {
+        running_ = false;
+        scheduled_executor_.shutdown();
+    }
 }
 
 std::string ScheduledReporter::rateUnitInSec() const {
-	std::ostringstream ostrstr;
-	ostrstr << rate_factor_;
-	ostrstr << " Seconds";
-	return ostrstr.str();
+    std::ostringstream ostrstr;
+    ostrstr << rate_factor_;
+    ostrstr << " Seconds";
+    return ostrstr.str();
 }
 
 double ScheduledReporter::convertDurationUnit(double duration) const {
-	return duration * duration_factor_;
+    return duration * duration_factor_;
 }
 
 double ScheduledReporter::convertRateUnit(double rate) const {
-	return rate * rate_factor_;
+    return rate * rate_factor_;
 }
 
 } /* namespace core */

@@ -27,44 +27,45 @@ namespace graphite {
 /**
  * Graphite TCP sender.
  */
-class GraphiteSenderTCP : public GraphiteSender {
+class GraphiteSenderTCP: public GraphiteSender {
 public:
 
-	/**
-	 * Creates a new sender with the given params.
-	 * @param host The graphite server host.
-	 * @param port The graphite server port.
-	 */
-	GraphiteSenderTCP(const std::string& host, boost::uint32_t port);
-	virtual ~GraphiteSenderTCP();
+    /**
+     * Creates a new sender with the given params.
+     * @param host The graphite server host.
+     * @param port The graphite server port.
+     */
+    GraphiteSenderTCP(const std::string& host, boost::uint32_t port);
+    virtual ~GraphiteSenderTCP();
 
-	/**
-	 * Connects to the graphite sender over TCP.
-	 * @return True on success, false otherwise.
-	 * @throws std::runtime_error if there is a problem.
-	 */
-	virtual void connect();
+    /**
+     * Connects to the graphite sender over TCP.
+     * @return True on success, false otherwise.
+     * @throws std::runtime_error if there is a problem.
+     */
+    virtual void connect();
 
-	/**
-	 * Posts the metric name, value and timestamp to the graphite server.
-	 * @param name The name of the metric
-	 * @param value The value of the metric
-	 * @param timestamp The timestamp of the metric.
-	 * @return True on success false otherwise.
-	 * @throws std::runtime_error if there is a problem.
-	 */
-	virtual void send(const std::string& name, const std::string& value,
-			boost::uint64_t timestamp);
+    /**
+     * Posts the metric name, value and timestamp to the graphite server.
+     * @param name The name of the metric
+     * @param value The value of the metric
+     * @param timestamp The timestamp of the metric.
+     * @return True on success false otherwise.
+     * @throws std::runtime_error if there is a problem.
+     */
+    virtual void send(const std::string& name,
+            const std::string& value,
+            boost::uint64_t timestamp);
 
-	/**
-	 * Closes the TCP connection.
-	 */
-	virtual void close();
+    /**
+     * Closes the TCP connection.
+     */
+    virtual void close();
 
 private:
-	bool connected_;
-	std::string host_;
-	std::string port_;
+    bool connected_;
+    std::string host_;
+    std::string port_;
 
     boost::scoped_ptr<boost::asio::io_service> io_service_;
     boost::scoped_ptr<boost::asio::ip::tcp::socket> socket_;

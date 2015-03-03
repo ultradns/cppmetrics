@@ -32,31 +32,31 @@ class Timer;
 class TimerContext {
 public:
 
-	/**
-	 * Creates a TimerContext.
-	 * @param timer The parent timer metric.
-	 */
-	TimerContext(Timer& timer);
+    /**
+     * Creates a TimerContext.
+     * @param timer The parent timer metric.
+     */
+    TimerContext(Timer& timer);
 
-	~TimerContext();
+    ~TimerContext();
 
-	/**
-	 * Resets the underlying clock.
-	 */
-	void reset();
+    /**
+     * Resets the underlying clock.
+     */
+    void reset();
 
     /**
      * Stops recording the elapsed time and updates the timer.
      * @return the elapsed time in nanoseconds
      */
-	boost::chrono::nanoseconds stop();
+    boost::chrono::nanoseconds stop();
 private:
 
-	TimerContext& operator=(const TimerContext&);
+    TimerContext& operator=(const TimerContext&);
 
-	Clock::time_point start_time_;	/**< The start time on instantitation */
-	Timer& timer_;					/**< The parent timer object. */
-	bool active_;					/**< Whether the timer is active or not */
+    Clock::time_point start_time_; ///< The start time on instantitation */
+    Timer& timer_;                 ///< The parent timer object. */
+    bool active_;                  ///< Whether the timer is active or not */
 };
 
 typedef boost::shared_ptr<TimerContext> TimerContextPtr;

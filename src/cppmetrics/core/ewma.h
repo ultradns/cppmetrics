@@ -36,69 +36,70 @@ public:
      * to be ticked every 5 seconds.
      * @return a one-minute EWMA
      */
-	static EWMA oneMinuteEWMA() {
-		return EWMA(M1_ALPHA, boost::chrono::seconds(INTERVAL_IN_SEC));
-	}
+    static EWMA oneMinuteEWMA() {
+        return EWMA(M1_ALPHA, boost::chrono::seconds(INTERVAL_IN_SEC));
+    }
 
     /**
      * Creates a new EWMA which is equivalent to the UNIX five minute load average and which expects
      * to be ticked every 5 seconds.
      * @return a five-minute EWMA
      */
-	static EWMA fiveMinuteEWMA() {
-		return EWMA(M5_ALPHA, boost::chrono::seconds(INTERVAL_IN_SEC));
-	}
+    static EWMA fiveMinuteEWMA() {
+        return EWMA(M5_ALPHA, boost::chrono::seconds(INTERVAL_IN_SEC));
+    }
 
     /**
      * Creates a new EWMA which is equivalent to the UNIX fifteen minute load average and which expects
      * to be ticked every 5 seconds.
      * @return a five-minute EWMA
      */
-	static EWMA fifteenMinuteEWMA() {
-		return EWMA(M15_ALPHA, boost::chrono::seconds(INTERVAL_IN_SEC));
-	}
+    static EWMA fifteenMinuteEWMA() {
+        return EWMA(M15_ALPHA, boost::chrono::seconds(INTERVAL_IN_SEC));
+    }
 
     /**
      * Create a new EWMA with a specific smoothing constant.
      * @param alpha        the smoothing constant
      * @param interval     the expected tick interval
      */
-	EWMA(double alpha, boost::chrono::nanoseconds interval);
-	EWMA(const EWMA &other);
-	~EWMA();
+    EWMA(double alpha, boost::chrono::nanoseconds interval);
+    EWMA(const EWMA &other);
+    ~EWMA();
 
     /**
      * Update the moving average with a new value.
      * @param n the new value
      */
-	void update(boost::uint64_t n);
+    void update(boost::uint64_t n);
 
     /**
      * Mark the passage of time and decay the current rate accordingly.
      */
-	void tick();
+    void tick();
 
     /**
      * Returns the rate in the given units of time.
      * @param rate_unit the unit of time
      * @return the rate
      */
-	double getRate(boost::chrono::nanoseconds rate_unit = boost::chrono::seconds(1)) const;
+    double getRate(boost::chrono::nanoseconds rate_unit =
+            boost::chrono::seconds(1)) const;
 private:
 
-	static const int INTERVAL_IN_SEC;
-	static const int ONE_MINUTE;
-	static const int FIVE_MINUTES;
-	static const int FIFTEEN_MINUTES;
-	static const double M1_ALPHA;
-	static const double M5_ALPHA;
-	static const double M15_ALPHA;
+    static const int INTERVAL_IN_SEC;
+    static const int ONE_MINUTE;
+    static const int FIVE_MINUTES;
+    static const int FIFTEEN_MINUTES;
+    static const double M1_ALPHA;
+    static const double M5_ALPHA;
+    static const double M15_ALPHA;
 
-	boost::atomic<bool> initialized_;
-	boost::atomic<double> ewma_;
-	boost::atomic<boost::uint64_t> uncounted_;
-	const double alpha_;
-	const boost::uint64_t interval_nanos_;
+    boost::atomic<bool> initialized_;
+    boost::atomic<double> ewma_;
+    boost::atomic<boost::uint64_t> uncounted_;
+    const double alpha_;
+    const boost::uint64_t interval_nanos_;
 };
 
 } /* namespace internal */

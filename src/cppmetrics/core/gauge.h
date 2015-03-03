@@ -28,10 +28,10 @@ namespace core {
  * to instrument a queue size, backlog etc.
  *
  */
-class Gauge : public Metric
-{
+class Gauge: public Metric {
 public:
-    virtual ~Gauge() {}
+    virtual ~Gauge() {
+    }
 
     /**
      * @return the current value of the guage.
