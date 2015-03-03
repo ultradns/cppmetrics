@@ -90,15 +90,18 @@ void ConsoleReporter::report(core::CounterMap counter_map,
 }
 
 void ConsoleReporter::printMeter(const core::MeteredMap::mapped_type& meter) {
-	ostr_ << "             count = " << meter->getCount() << std::endl;
-	ostr_ << "         mean rate = " << convertRateUnit(meter->getMeanRate())
-			<< " events per " << rateUnitInSec() << std::endl;
-	ostr_ << "     1-minute rate = " << convertRateUnit(meter->getOneMinuteRate())
-			<< " events per " << rateUnitInSec() << std::endl;
-	ostr_ << "     5-minute rate = " << convertRateUnit(meter->getFiveMinuteRate())
-			<< " events per " << rateUnitInSec() << std::endl;
-	ostr_ << "    15-minute rate = " << convertRateUnit(meter->getFifteenMinuteRate())
-			<< " events per " << rateUnitInSec() << std::endl;
+    ostr_ << "             count = " << meter->getCount() << std::endl;
+    ostr_ << "         mean rate = " << convertRateUnit(meter->getMeanRate())
+            << " events per " << rateUnitInSec() << std::endl;
+    ostr_ << "     1-minute rate = "
+            << convertRateUnit(meter->getOneMinuteRate()) << " events per "
+            << rateUnitInSec() << std::endl;
+    ostr_ << "     5-minute rate = "
+            << convertRateUnit(meter->getFiveMinuteRate()) << " events per "
+            << rateUnitInSec() << std::endl;
+    ostr_ << "    15-minute rate = "
+            << convertRateUnit(meter->getFifteenMinuteRate()) << " events per "
+            << rateUnitInSec() << std::endl;
 }
 
 void ConsoleReporter::printCounter(const core::CounterMap::mapped_type& counter_ptr) {

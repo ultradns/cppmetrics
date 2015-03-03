@@ -50,25 +50,25 @@ void GraphiteReporter::report(core::CounterMap counter_map,
     try {
         sender_->connect();
 
-        BOOST_FOREACH(const core::CounterMap::value_type& kv, counter_map){
-        reportCounter(kv.first, kv.second, timestamp);
-    }
+        BOOST_FOREACH(const core::CounterMap::value_type& kv, counter_map) {
+            reportCounter(kv.first, kv.second, timestamp);
+        }
 
-        BOOST_FOREACH(const core::HistogramMap::value_type& kv, histogram_map){
-        reportHistogram(kv.first, kv.second, timestamp);
-    }
+        BOOST_FOREACH(const core::HistogramMap::value_type& kv, histogram_map) {
+            reportHistogram(kv.first, kv.second, timestamp);
+        }
 
-        BOOST_FOREACH(const core::MeteredMap::value_type& kv, meter_map){
-        reportMeter(kv.first, kv.second, timestamp);
-    }
+        BOOST_FOREACH(const core::MeteredMap::value_type& kv, meter_map) {
+            reportMeter(kv.first, kv.second, timestamp);
+        }
 
-        BOOST_FOREACH(const core::TimerMap::value_type& kv, timer_map){
-        reportTimer(kv.first, kv.second, timestamp);
-    }
+        BOOST_FOREACH(const core::TimerMap::value_type& kv, timer_map) {
+            reportTimer(kv.first, kv.second, timestamp);
+        }
 
-        BOOST_FOREACH(const core::GaugeMap::value_type& kv, gauge_map){
-        reportGauge(kv.first, kv.second, timestamp);
-    }
+        BOOST_FOREACH(const core::GaugeMap::value_type& kv, gauge_map) {
+            reportGauge(kv.first, kv.second, timestamp);
+        }
         sender_->close();
     }
     catch (const std::exception& e) {
