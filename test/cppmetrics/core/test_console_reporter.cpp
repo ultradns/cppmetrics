@@ -25,41 +25,40 @@ namespace core {
 
 namespace {
 
-class TestGauge : public Gauge {
+class TestGauge: public Gauge {
 public:
-	virtual boost::int64_t getValue() {
-		return 100;
-	}
+    virtual boost::int64_t getValue() {
+        return 100;
+    }
 };
 
 }
 
 TEST(consolereporter, gaugetest) {
 
-	MetricRegistryPtr metric_registry(new MetricRegistry());
-	metric_registry->addGauge("new.gauge", GaugePtr(new TestGauge()));
-	ConsoleReporter console_reporter(metric_registry, std::cout);
-	console_reporter.start(boost::chrono::milliseconds(1000));
-	boost::this_thread::sleep(boost::posix_time::milliseconds(10 * 1000));
+    MetricRegistryPtr metric_registry(new MetricRegistry());
+    metric_registry->addGauge("new.gauge", GaugePtr(new TestGauge()));
+    ConsoleReporter console_reporter(metric_registry, std::cout);
+    console_reporter.start(boost::chrono::milliseconds(1000));
+    boost::this_thread::sleep(boost::posix_time::milliseconds(10 * 1000));
 }
 
 TEST(consolereporter, timerContextTest) {
 
-	MetricRegistryPtr metric_registry(new MetricRegistry());
-	boost::mt11213b rng;
-	ConsoleReporter console_reporter(metric_registry, std::cout);
-	console_reporter.start(boost::chrono::milliseconds(1000));
-	for (size_t i = 0; i < 100; ++i) {
-		boost::random::uniform_int_distribution<> uniform(10, 30);
-		size_t sleep_time = uniform(rng);
-		TimerContextPtr time_context(metric_registry->timer("test.timer")->timerContextPtr());
-		boost::this_thread::sleep(boost::posix_time::milliseconds(sleep_time));
-	}
-	boost::this_thread::sleep(boost::posix_time::milliseconds(10 * 1000));
+    MetricRegistryPtr metric_registry(new MetricRegistry());
+    boost::mt11213b rng;
+    ConsoleReporter console_reporter(metric_registry, std::cout);
+    console_reporter.start(boost::chrono::milliseconds(1000));
+    for (size_t i = 0; i < 100; ++i) {
+        boost::random::uniform_int_distribution<> uniform(10, 30);
+        size_t sleep_time = uniform(rng);
+        TimerContextPtr time_context(
+                metric_registry->timer("test.timer")->timerContextPtr());
+        boost::this_thread::sleep(boost::posix_time::milliseconds(sleep_time));
+    }
+    boost::this_thread::sleep(boost::posix_time::milliseconds(10 * 1000));
 }
 
 }
 }
-
-
 

@@ -21,35 +21,34 @@ namespace core {
 
 TEST(counter, functionaltest) {
 
-	Counter counter;
-	ASSERT_EQ(0, counter.getCount());
+    Counter counter;
+    ASSERT_EQ(0, counter.getCount());
 
-	counter.increment();
-	ASSERT_EQ(1, counter.getCount());
+    counter.increment();
+    ASSERT_EQ(1, counter.getCount());
 
-	counter.increment(5);
-	ASSERT_EQ(6, counter.getCount());
+    counter.increment(5);
+    ASSERT_EQ(6, counter.getCount());
 
-	counter.increment(3);
-	ASSERT_EQ(9, counter.getCount());
+    counter.increment(3);
+    ASSERT_EQ(9, counter.getCount());
 
-	counter.decrement(4);
-	ASSERT_EQ(5, counter.getCount());
+    counter.decrement(4);
+    ASSERT_EQ(5, counter.getCount());
 
-	counter.decrement();
-	ASSERT_EQ(4, counter.getCount());
+    counter.decrement();
+    ASSERT_EQ(4, counter.getCount());
 
-	counter.setCount(3);
-	ASSERT_EQ(3, counter.getCount());
+    counter.setCount(3);
+    ASSERT_EQ(3, counter.getCount());
 
-	counter.clear();
-	ASSERT_EQ(0, counter.getCount());
+    counter.clear();
+    ASSERT_EQ(0, counter.getCount());
 
-	counter.decrement(12);
-	ASSERT_EQ(-12, counter.getCount());
+    counter.decrement(12);
+    ASSERT_EQ(-12, counter.getCount());
 }
 
 }
 }
-
 

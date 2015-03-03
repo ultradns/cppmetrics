@@ -19,15 +19,19 @@
 namespace cppmetrics {
 namespace core {
 
-ScheduledReporter::ScheduledReporter(MetricRegistryPtr registry, boost::chrono::milliseconds rate_unit) :
-				running_(false),
-				metric_registry_(registry),
-				scheduled_executor_(1),
-				rate_factor_(boost::chrono::milliseconds(1000).count() / rate_unit.count()),
-				duration_factor_(
-						static_cast<double>(1.0)
-								/ boost::chrono::duration_cast<boost::chrono::nanoseconds>(
-										boost::chrono::milliseconds(1)).count()) {
+ScheduledReporter::ScheduledReporter(MetricRegistryPtr registry,
+        boost::chrono::milliseconds rate_unit) :
+                running_(false),
+                metric_registry_(registry),
+                scheduled_executor_(1),
+                rate_factor_(
+                        boost::chrono::milliseconds(1000).count()
+                                / rate_unit.count()),
+                duration_factor_(
+                        static_cast<double>(1.0)
+                                / boost::chrono::duration_cast<
+                                        boost::chrono::nanoseconds>(
+                                        boost::chrono::milliseconds(1)).count()) {
 
 }
 

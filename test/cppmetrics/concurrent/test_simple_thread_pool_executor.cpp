@@ -21,26 +21,26 @@ namespace concurrent {
 
 namespace {
 void increment_counter(size_t& counter) {
-	++counter;
+    ++counter;
 }
 }
 
 TEST(simplethreadpoolexecutor, functionaltest) {
-	SimpleThreadPoolExecutor thread_pool_executor(2);
+    SimpleThreadPoolExecutor thread_pool_executor(2);
 
-	ASSERT_FALSE(thread_pool_executor.isShutdown());
-	size_t counter = 0;
-	boost::function<void()> task(boost::bind(increment_counter, boost::ref(counter)));
-	thread_pool_executor.execute(task);
-	// Give up a timeslice.
-	boost::this_thread::sleep(boost::posix_time::milliseconds(20));
-	ASSERT_EQ((size_t)1, counter);
-	ASSERT_FALSE(thread_pool_executor.isShutdown());
-	thread_pool_executor.shutdownNow();
-	ASSERT_TRUE(thread_pool_executor.isShutdown());
+    ASSERT_FALSE(thread_pool_executor.isShutdown());
+    size_t counter = 0;
+    boost::function<void()> task(
+            boost::bind(increment_counter, boost::ref(counter)));
+    thread_pool_executor.execute(task);
+    // Give up a timeslice.
+    boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+    ASSERT_EQ((size_t )1, counter);
+    ASSERT_FALSE(thread_pool_executor.isShutdown());
+    thread_pool_executor.shutdownNow();
+    ASSERT_TRUE(thread_pool_executor.isShutdown());
 }
 
 }
 }
-
 

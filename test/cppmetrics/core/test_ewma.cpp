@@ -30,14 +30,14 @@ void elapse_minute(EWMA& ewma) {
 
 TEST(ewma, oneMinuteTestWithValueOf3) {
 
-	EWMA ewma = EWMA::oneMinuteEWMA();
-	ewma.update(3);
-	ewma.tick();
-	ASSERT_NEAR(0.6, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
-	elapse_minute(ewma);
-	ASSERT_NEAR(0.22072766, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    EWMA ewma = EWMA::oneMinuteEWMA();
+    ewma.update(3);
+    ewma.tick();
+    ASSERT_NEAR(0.6, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    elapse_minute(ewma);
+    ASSERT_NEAR(0.22072766, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
 
-	elapse_minute(ewma);
+    elapse_minute(ewma);
     ASSERT_NEAR(0.08120117, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
@@ -189,5 +189,4 @@ TEST(ewma, FifteenMinuteTestWithValueOf3) {
 }
 }
 }
-
 

@@ -20,25 +20,24 @@ namespace cppmetrics {
 namespace core {
 
 TEST(histogram, updatesTheCountOnUpdatesTest) {
-	Histogram histogram;
-	ASSERT_EQ((size_t)0, histogram.getCount());
-	ASSERT_EQ((size_t)0, histogram.getSnapshot()->size());
+    Histogram histogram;
+    ASSERT_EQ((size_t )0, histogram.getCount());
+    ASSERT_EQ((size_t )0, histogram.getSnapshot()->size());
 
-	histogram.update(1);
-	ASSERT_EQ((size_t)1, histogram.getCount());
-	ASSERT_EQ((size_t)1, histogram.getSnapshot()->size());
+    histogram.update(1);
+    ASSERT_EQ((size_t )1, histogram.getCount());
+    ASSERT_EQ((size_t )1, histogram.getSnapshot()->size());
 
-	const size_t update_count = 4096;
-	for (size_t i = 0; i < update_count; ++i) {
-		histogram.update(i);
-	}
+    const size_t update_count = 4096;
+    for (size_t i = 0; i < update_count; ++i) {
+        histogram.update(i);
+    }
 
-	const size_t max_sample_size = 1024;
-	ASSERT_EQ(update_count + 1, histogram.getCount());
-	ASSERT_EQ(max_sample_size, histogram.getSnapshot()->size());
+    const size_t max_sample_size = 1024;
+    ASSERT_EQ(update_count + 1, histogram.getCount());
+    ASSERT_EQ(max_sample_size, histogram.getSnapshot()->size());
 }
 
 }
 }
-
 

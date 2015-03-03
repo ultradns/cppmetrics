@@ -20,8 +20,8 @@ namespace cppmetrics {
 namespace graphite {
 
 TEST(graphiteSenderTCP, connectionFailuresTest) {
-	GraphiteSenderTCP graphite_sender_tcp("localhost", 3483);
-	ASSERT_THROW(graphite_sender_tcp.connect(), std::runtime_error);
+    GraphiteSenderTCP graphite_sender_tcp("localhost", 3483);
+    ASSERT_THROW(graphite_sender_tcp.connect(), std::runtime_error);
 }
 
 }

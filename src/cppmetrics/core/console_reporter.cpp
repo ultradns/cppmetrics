@@ -33,10 +33,10 @@ ConsoleReporter::~ConsoleReporter() {
 }
 
 void ConsoleReporter::report(core::CounterMap counter_map,
-		core::HistogramMap histogram_map,
-		core::MeteredMap meter_map,
-		core::TimerMap timer_map,
-		core::GaugeMap gauge_map) {
+        core::HistogramMap histogram_map,
+        core::MeteredMap meter_map,
+        core::TimerMap timer_map,
+        core::GaugeMap gauge_map) {
 
     std::string timestamp = utc_timestamp(ostr_.getloc());
     printWithBanner(timestamp, '=');
@@ -44,7 +44,7 @@ void ConsoleReporter::report(core::CounterMap counter_map,
     if (!gauge_map.empty()) {
         printWithBanner("-- Gauges", '-');
         BOOST_FOREACH(const core::GaugeMap::value_type& entry, gauge_map) {
-        	ostr_ << entry.first << std::endl;
+            ostr_ << entry.first << std::endl;
             printGauge(entry.second);
         }
         ostr_ << std::endl;
@@ -52,8 +52,8 @@ void ConsoleReporter::report(core::CounterMap counter_map,
 
     if (!counter_map.empty()) {
         printWithBanner("-- Counters", '-');
-        BOOST_FOREACH(const core::CounterMap::value_type& entry, counter_map) {
-        	ostr_ << entry.first << std::endl;
+        BOOST_FOREACH(const core::CounterMap::value_type& entry, counter_map){
+            ostr_ << entry.first << std::endl;
             printCounter(entry.second);
         }
         ostr_ << std::endl;
@@ -71,7 +71,7 @@ void ConsoleReporter::report(core::CounterMap counter_map,
     if (!meter_map.empty()) {
         printWithBanner("-- Meters", '-');
         BOOST_FOREACH(const core::MeteredMap::value_type& entry, meter_map) {
-        	ostr_ << entry.first << std::endl;
+            ostr_ << entry.first << std::endl;
             printMeter(entry.second);
         }
         ostr_ << std::endl;
@@ -80,7 +80,7 @@ void ConsoleReporter::report(core::CounterMap counter_map,
     if (!timer_map.empty()) {
         printWithBanner("-- Timers", '-');
         BOOST_FOREACH(const core::TimerMap::value_type& entry, timer_map) {
-        	ostr_ << entry.first << std::endl;
+            ostr_ << entry.first << std::endl;
             printTimer(entry.second);
         }
         ostr_ << std::endl;
@@ -102,11 +102,11 @@ void ConsoleReporter::printMeter(const core::MeteredMap::mapped_type& meter) {
 }
 
 void ConsoleReporter::printCounter(const core::CounterMap::mapped_type& counter_ptr) {
-	ostr_ <<  "             count = " << counter_ptr->getCount() << std::endl;
+    ostr_ << "             count = " << counter_ptr->getCount() << std::endl;
 }
 
 void ConsoleReporter::printGauge(const core::GaugeMap::mapped_type& gauge_ptr) {
-    ostr_ << "             value = " <<  gauge_ptr->getValue() << std::endl;
+    ostr_ << "             value = " << gauge_ptr->getValue() << std::endl;
 }
 
 void ConsoleReporter::printHistogram(const core::HistogramMap::mapped_type& histogram_ptr) {

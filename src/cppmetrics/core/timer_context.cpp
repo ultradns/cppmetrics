@@ -13,7 +13,6 @@
  *      Author: vpoliboy
  */
 
-
 #include "cppmetrics/core/timer_context.h"
 #include "cppmetrics/core/timer.h"
 
@@ -21,27 +20,27 @@ namespace cppmetrics {
 namespace core {
 
 TimerContext::TimerContext(Timer& timer) :
-		timer_(timer) {
-	reset();
+        timer_(timer) {
+    reset();
 }
 
 TimerContext::~TimerContext() {
-	stop();
+    stop();
 }
 
 void TimerContext::reset() {
-	active_ = true;
-	start_time_ = Clock::now();
+    active_ = true;
+    start_time_ = Clock::now();
 }
 
 boost::chrono::nanoseconds TimerContext::stop() {
-	if (active_) {
-		boost::chrono::nanoseconds dur = Clock::now() - start_time_;
-		timer_.update(dur);
-		active_ = false;
-		return dur;
-	}
-	return boost::chrono::nanoseconds(0);
+    if (active_) {
+        boost::chrono::nanoseconds dur = Clock::now() - start_time_;
+        timer_.update(dur);
+        active_ = false;
+        return dur;
+    }
+    return boost::chrono::nanoseconds(0);
 }
 
 } /* namespace core */
