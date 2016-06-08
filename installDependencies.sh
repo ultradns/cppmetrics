@@ -36,9 +36,22 @@ make_gtest() {
     find include -name "*.h"  -exec /usr/bin/install -c -m 644 '{}' "${INSTALL_DIR}/{}" \;
 }
 
+# A platform independent way to find the absolute path
+fullpath() {
+	pushd . >/dev/null
+	cd "$(dirname "$1")"
+	LINK=$(readlink "$(basename "$1")")
+	while [ "$LINK" ]; do
+		cd "$(dirname "$LINK")"
+		LINK=$(readlink "$(basename "$1")")
+	done
+	REALPATH="$PWD/$(basename "$1")"
+	popd > /dev/null
+	echo $REALPATH
+}
+
 fetch_and_install_dependencies() {
     DEPENDENCY_DIR=$1
-    rm -rf ${DEPENDENCY_DIR}/*
     SOURCE_DIR=${DEPENDENCY_DIR}/sources
     INSTALL_DIR=${DEPENDENCY_DIR}/install
     mkdir -p ${SOURCE_DIR}
@@ -49,4 +62,10 @@ fetch_and_install_dependencies() {
     cd ${SOURCE_DIR} && make_gtest ${INSTALL_DIR}
 }
 
-fetch_and_install_dependencies $1
+if [ "x$1" == "x" ] || [ -d "$1" ]
+then
+	echo "Must provided the name of a non existent folder as a parameter (will be used to install depenedencies)"
+	exit 1
+fi
+
+fetch_and_install_dependencies `fullpath $1`
