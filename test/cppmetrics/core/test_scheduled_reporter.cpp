@@ -24,7 +24,7 @@ namespace {
 
 class StubScheduledReporter: public ScheduledReporter {
 public:
-	StubScheduledReporter(MetricRegistryPtr registry, boost::chrono::milliseconds rate_unit) :
+	StubScheduledReporter(MetricRegistryPtr registry, std::chrono::milliseconds rate_unit) :
 			ScheduledReporter(registry, rate_unit),
 			invocation_count_(0) {
 		last_time_ = Clock::now();
@@ -43,8 +43,8 @@ public:
 			TimerMap timer_map,
 			GaugeMap gauge_map) {
 		++invocation_count_;
-		boost::chrono::milliseconds invocation_period(
-				boost::chrono::duration_cast<boost::chrono::milliseconds>(Clock::now() - last_time_));
+		std::chrono::milliseconds invocation_period(
+				std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - last_time_));
 		std::cout << invocation_count_ << " Invocation period(in millis): " << invocation_period.count()
 				  << std::endl;
 		last_time_ = Clock::now();
@@ -59,9 +59,9 @@ private:
 
 TEST(scheduledreporter, test) {
 	StubScheduledReporter scheduled_reporter(MetricRegistry::DEFAULT_REGISTRY(),
-			boost::chrono::milliseconds(1));
-	scheduled_reporter.start(boost::chrono::milliseconds(100));
-	boost::this_thread::sleep(boost::posix_time::seconds(1));
+			std::chrono::milliseconds(1));
+	scheduled_reporter.start(std::chrono::milliseconds(100));
+	usleep(1000*1000);
 	scheduled_reporter.stop();
 	ASSERT_LE((size_t)9, scheduled_reporter.invocation_count());
 	ASSERT_GE((size_t)11, scheduled_reporter.invocation_count());

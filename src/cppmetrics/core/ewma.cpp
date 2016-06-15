@@ -33,7 +33,7 @@ const double EWMA::M5_ALPHA = 1
 const double EWMA::M15_ALPHA = 1
 		- std::exp(static_cast<double>(-(EWMA::INTERVAL_IN_SEC)) / (60 * EWMA::FIFTEEN_MINUTES));
 
-EWMA::EWMA(double alpha, boost::chrono::nanoseconds interval) :
+EWMA::EWMA(double alpha, std::chrono::nanoseconds interval) :
         uncounted_(0), alpha_(alpha), interval_nanos_(interval.count()) {
     initialized_ = false;
     ewma_ = 0.0;
@@ -50,7 +50,7 @@ EWMA::EWMA(const EWMA &other) :
 EWMA::~EWMA() {
 }
 
-void EWMA::update(boost::uint64_t n) {
+void EWMA::update(std::uint64_t n) {
     uncounted_ += n;
 }
 
@@ -58,7 +58,7 @@ void EWMA::update(boost::uint64_t n) {
 // http://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
 // EMAlatest = EMAprevious + alpha * (RATEtoday - EMAprevious)
 void EWMA::tick() {
-    const boost::uint64_t count = uncounted_.exchange(0);
+    const std::uint64_t count = uncounted_.exchange(0);
     const double instant_rate = static_cast<double>(count) / interval_nanos_;
     if (initialized_) {
         // This does an atomic fetch and add.
@@ -72,7 +72,7 @@ void EWMA::tick() {
     }
 }
 
-double EWMA::getRate(boost::chrono::nanoseconds duration) const {
+double EWMA::getRate(std::chrono::nanoseconds duration) const {
     return ewma_ * duration.count();
 }
 

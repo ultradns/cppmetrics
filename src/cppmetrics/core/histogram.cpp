@@ -39,7 +39,7 @@ void Histogram::clear() {
     sample_->clear();
 }
 
-boost::uint64_t Histogram::getCount() const {
+uint64_t Histogram::getCount() const {
     return count_;
 }
 
@@ -47,7 +47,7 @@ SnapshotPtr Histogram::getSnapshot() const {
     return sample_->getSnapshot();
 }
 
-void Histogram::update(boost::int64_t value) {
+void Histogram::update(int64_t value) {
     ++count_;
     sample_->update(value);
 }

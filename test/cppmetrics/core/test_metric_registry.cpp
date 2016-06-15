@@ -26,7 +26,7 @@ public:
     virtual ~FakeGauge() {
     }
     ;
-    virtual boost::int64_t getValue() {
+    virtual int64_t getValue() {
         return 10;
     }
 };

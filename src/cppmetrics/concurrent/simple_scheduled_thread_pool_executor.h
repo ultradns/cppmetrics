@@ -16,16 +16,27 @@
 #ifndef SIMPLE_SCHEDULED_THREAD_POOL_EXECUTOR_H_
 #define SIMPLE_SCHEDULED_THREAD_POOL_EXECUTOR_H_
 
-#include <boost/function.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/chrono/duration.hpp>
-#include <boost/foreach.hpp>
-#include <boost/asio.hpp>
-#include <boost/atomic.hpp>
-#include <boost/thread.hpp>
+#include <chrono>
+#include <vector>
+#include <algorithm>
+
+#include <atomic>
+#include <thread>
+
+#include "Poco/Util/Timer.h"
+
+namespace Poco{
+namespace Util{
+class TimerTask;
+}}
 
 namespace cppmetrics {
+namespace core {
+class Reporter;
+}
 namespace concurrent {
+
+
 
 /**
  * A simple threadpool that executes a given command at a given interval of time.
@@ -48,8 +59,8 @@ public:
      * @param command The command to execute at fixed interval.
      * @param period The interval between the start of the tasks.
      */
-    virtual void scheduleAtFixedRate(boost::function<void()> command,
-            boost::chrono::milliseconds period);
+    virtual void scheduleAtFixedRate(core::Reporter* command,
+            std::chrono::milliseconds period);
 
     /**
      * Executes the give task at the configured interval delay until shutdown is called. The given command
@@ -57,8 +68,12 @@ public:
      * @param command The command to execute at fixed delay.
      * @param period The time period between the end of the tasks.
      */
-    virtual void scheduleAtFixedDelay(boost::function<void()> command,
-            boost::chrono::milliseconds period);
+//    virtual void scheduleAtFixedDelay(std::function<void()> command,
+//            std::chrono::milliseconds period);
+
+
+//    virtual void scheduleAtFixedDelay( std::function<void()> command, void* arg,
+//                std::chrono::milliseconds period);
 
     /**
      * Shuts down the service, may or may not return immediately depending on the pending tasks.
@@ -77,20 +92,20 @@ public:
     virtual bool isShutdown() const;
 private:
     void cancelTimers();
-    void timerHandler(const boost::system::error_code& ec, size_t timer_index);
+    void timerHandler(int error_code, size_t timer_index);
 
-    void scheduleTimer(boost::function<void()> task,
-            boost::chrono::milliseconds period, bool fixed_rate);
+//    void scheduleTimer(std::function<void()> task,
+//            std::chrono::milliseconds period, bool fixed_rate);
 
-    boost::atomic<bool> running_;
-    boost::asio::io_service io_service_;
-    boost::scoped_ptr<boost::asio::io_service::work> work_ptr_;
-    boost::thread_group thread_group_;
+    std::atomic<bool> running_;
 
-    class TimerTask;
-    typedef std::vector<TimerTask> TimerTasks;
-    TimerTasks timer_tasks_;
-    mutable boost::mutex timer_task_mutex_;
+
+
+    //typedef std::vector<Poco::Util::TimerTask> TimerTasks;
+    //TimerTasks timer_tasks_;
+    Poco::Util::TimerTask* timer_task_;
+    Poco::Util::Timer timer_; // a single timer
+    mutable std::mutex timer_task_mutex_;
 };
 
 } /* namespace concurrent */

@@ -16,9 +16,9 @@
 #ifndef EWMA_H_
 #define EWMA_H_
 
-#include <boost/scoped_ptr.hpp>
-#include <boost/chrono.hpp>
-#include <boost/atomic.hpp>
+#include "scoped_ptr.h"
+#include <chrono>
+#include <atomic>
 
 namespace cppmetrics {
 namespace core {
@@ -37,7 +37,7 @@ public:
      * @return a one-minute EWMA
      */
     static EWMA oneMinuteEWMA() {
-        return EWMA(M1_ALPHA, boost::chrono::seconds(INTERVAL_IN_SEC));
+        return EWMA(M1_ALPHA, std::chrono::seconds(INTERVAL_IN_SEC));
     }
 
     /**
@@ -46,7 +46,7 @@ public:
      * @return a five-minute EWMA
      */
     static EWMA fiveMinuteEWMA() {
-        return EWMA(M5_ALPHA, boost::chrono::seconds(INTERVAL_IN_SEC));
+        return EWMA(M5_ALPHA, std::chrono::seconds(INTERVAL_IN_SEC));
     }
 
     /**
@@ -55,7 +55,7 @@ public:
      * @return a five-minute EWMA
      */
     static EWMA fifteenMinuteEWMA() {
-        return EWMA(M15_ALPHA, boost::chrono::seconds(INTERVAL_IN_SEC));
+        return EWMA(M15_ALPHA, std::chrono::seconds(INTERVAL_IN_SEC));
     }
 
     /**
@@ -63,7 +63,7 @@ public:
      * @param alpha        the smoothing constant
      * @param interval     the expected tick interval
      */
-    EWMA(double alpha, boost::chrono::nanoseconds interval);
+    EWMA(double alpha, std::chrono::nanoseconds interval);
     EWMA(const EWMA &other);
     ~EWMA();
 
@@ -71,7 +71,7 @@ public:
      * Update the moving average with a new value.
      * @param n the new value
      */
-    void update(boost::uint64_t n);
+    void update(uint64_t n);
 
     /**
      * Mark the passage of time and decay the current rate accordingly.
@@ -83,8 +83,8 @@ public:
      * @param rate_unit the unit of time
      * @return the rate
      */
-    double getRate(boost::chrono::nanoseconds rate_unit =
-            boost::chrono::seconds(1)) const;
+    double getRate(std::chrono::nanoseconds rate_unit =
+            std::chrono::seconds(1)) const;
 private:
 
     static const int INTERVAL_IN_SEC;
@@ -95,11 +95,11 @@ private:
     static const double M5_ALPHA;
     static const double M15_ALPHA;
 
-    boost::atomic<bool> initialized_;
-    boost::atomic<double> ewma_;
-    boost::atomic<boost::uint64_t> uncounted_;
+    std::atomic<bool> initialized_;
+    std::atomic<double> ewma_;
+    std::atomic<uint64_t> uncounted_;
     const double alpha_;
-    const boost::uint64_t interval_nanos_;
+    const uint64_t interval_nanos_;
 };
 
 } /* namespace internal */

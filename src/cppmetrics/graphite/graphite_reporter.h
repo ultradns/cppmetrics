@@ -16,9 +16,9 @@
 #ifndef GRAPHITE_REPORTER_H_
 #define GRAPHITE_REPORTER_H_
 
-#include <boost/scoped_ptr.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/chrono.hpp>
+#include "scoped_ptr.h"
+//#include <boost/noncopyable.hpp>
+#include <chrono>
 #include "cppmetrics/core/scheduled_reporter.h"
 #include "cppmetrics/graphite/graphite_sender.h"
 
@@ -29,7 +29,7 @@ namespace graphite {
  * A reporter which publishes metric values to a Graphite server.
  * @see <a href="http://graphite.wikidot.com/">Graphite - Scalable Realtime Graphing</a>
  */
-class GraphiteReporter: public core::ScheduledReporter, boost::noncopyable {
+class GraphiteReporter: public core::ScheduledReporter, noncopyable {
 public:
     /**
      * Creates a {@link GraphiteReporter} instance. Uses the given registry, metricname prefix.
@@ -42,7 +42,7 @@ public:
     GraphiteReporter(core::MetricRegistryPtr registry,
             GraphiteSenderPtr graphite_sender,
             std::string prefix,
-            boost::chrono::milliseconds rateUnit = boost::chrono::seconds(1));
+            std::chrono::milliseconds rateUnit = std::chrono::seconds(1));
     virtual ~GraphiteReporter();
 
     /**
@@ -62,33 +62,36 @@ private:
 
     std::string prefix(const std::string& name, const char* extra = NULL);
 
-    template<class T> std::string format(T o);
+    //explicit std::string format(double o);
+    std::string format(int o);
+//    std::string format(uint64_t o);
+    //std::string format(double o);
 
     void reportTimer(const std::string& name,
             core::TimerPtr timer,
-            boost::uint64_t timestamp);
+            std::uint64_t timestamp);
 
     void reportMeter(const std::string& name,
             core::MeteredPtr meter,
-            boost::uint64_t timestamp);
+            std::uint64_t timestamp);
 
     void reportHistogram(const std::string& name,
             core::HistogramPtr histogram,
-            boost::uint64_t timestamp);
+            std::uint64_t timestamp);
 
     void reportCounter(const std::string& name,
             core::CounterPtr counter,
-            boost::uint64_t timestamp);
+            std::uint64_t timestamp);
 
     void reportGauge(const std::string& name,
             core::GaugePtr gauge,
-            boost::uint64_t timestamp);
+            std::uint64_t timestamp);
 
     core::MetricRegistryPtr registry_;
     GraphiteSenderPtr sender_;
     std::string prefix_;
-    boost::chrono::milliseconds rate_unit_;
-    boost::chrono::milliseconds duration_unit_;
+    std::chrono::milliseconds rate_unit_;
+    std::chrono::milliseconds duration_unit_;
 };
 
 } /* namespace graphite */

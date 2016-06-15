@@ -38,13 +38,13 @@ public:
      * Returns the number of values recorded.
      * @return the number of values recorded
      */
-    virtual boost::uint64_t size() const = 0;
+    virtual uint64_t size() const = 0;
 
     /**
      * Adds a new recorded value to the sample.
      * @param value a new recorded value
      */
-    virtual void update(boost::int64_t value) = 0;
+    virtual void update(int64_t value) = 0;
 
     /**
      * Returns a snapshot of the sample's values.

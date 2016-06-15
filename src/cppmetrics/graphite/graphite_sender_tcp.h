@@ -16,9 +16,7 @@
 #ifndef GRAPHITE_SENDER_TCP_H_
 #define GRAPHITE_SENDER_TCP_H_
 
-#include <boost/cstdint.hpp>
-#include <boost/asio.hpp>
-#include <boost/scoped_ptr.hpp>
+#include "Poco/Net/StreamSocket.h"
 #include "cppmetrics/graphite/graphite_sender.h"
 
 namespace cppmetrics {
@@ -35,7 +33,7 @@ public:
      * @param host The graphite server host.
      * @param port The graphite server port.
      */
-    GraphiteSenderTCP(const std::string& host, boost::uint32_t port);
+    GraphiteSenderTCP(const std::string& host, uint16_t port);
     virtual ~GraphiteSenderTCP();
 
     /**
@@ -55,7 +53,7 @@ public:
      */
     virtual void send(const std::string& name,
             const std::string& value,
-            boost::uint64_t timestamp);
+            uint64_t timestamp);
 
     /**
      * Closes the TCP connection.
@@ -65,10 +63,9 @@ public:
 private:
     bool connected_;
     std::string host_;
-    std::string port_;
+    uint16_t port_;
 
-    boost::scoped_ptr<boost::asio::io_service> io_service_;
-    boost::scoped_ptr<boost::asio::ip::tcp::socket> socket_;
+   Poco::Net::StreamSocket	socket_;
 };
 
 } /* namespace graphite */

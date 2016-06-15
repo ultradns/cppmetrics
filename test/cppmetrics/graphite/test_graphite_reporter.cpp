@@ -14,19 +14,18 @@
  */
 
 #include <gtest/gtest.h>
-#include <boost/lexical_cast.hpp>
 #include "cppmetrics/graphite/graphite_reporter.h"
-
+using namespace std;
 namespace cppmetrics {
 namespace graphite {
 
-static const std::string PREFIX("Prefix");
-static const std::string GAUGE_NAME("Gauge");
-static const boost::int64_t GAUGE_VALUE(100);
+static const string PREFIX("Prefix");
+static const string GAUGE_NAME("Gauge");
+static const int64_t GAUGE_VALUE(100);
 
 
-static const std::string COUNTER_NAME("Counter");
-static const boost::uint64_t COUNTER_VALUE(100);
+static const string COUNTER_NAME("Counter");
+static const uint64_t COUNTER_VALUE(100);
 
 
 namespace {
@@ -35,7 +34,7 @@ namespace {
 class FakeGauge : public core::Gauge {
 public:
 	virtual ~FakeGauge() {}
-    virtual boost::int64_t getValue() {
+    virtual int64_t getValue() {
     	return GAUGE_VALUE;
     }
 };
@@ -55,8 +54,8 @@ public:
 		method_called_[Connect] = true;
 	}
 
-	virtual void send(const std::string& name, const std::string& value,
-			boost::uint64_t timestamp) {
+	virtual void send(const string& name, const string& value,
+			uint64_t timestamp) {
 		ASSERT_TRUE(method_called_[Connect]);
 		method_called_[Send] = true;
 		switch (metric_type_) {
@@ -98,32 +97,32 @@ private:
 		ASSERT_TRUE(method_called_[Close]);
 	}
 
-	void sendGauge(const std::string& name, const std::string& actual_value,
-			boost::uint64_t timestamp) {
-		std::string expected_value(boost::lexical_cast<std::string>(GAUGE_VALUE));
-		ASSERT_STREQ(std::string(PREFIX + '.' + GAUGE_NAME).c_str(), name.c_str());
+	void sendGauge(const string& name, const string& actual_value,
+			uint64_t timestamp) {
+		string expected_value(to_string(GAUGE_VALUE));
+		ASSERT_STREQ(string(PREFIX + '.' + GAUGE_NAME).c_str(), name.c_str());
 		ASSERT_STREQ(expected_value.c_str(), actual_value.c_str());
 	}
 
-	void sendCounter(const std::string& name, const std::string& actual_value,
-			boost::uint64_t timestamp) {
-		std::string expected_value(boost::lexical_cast<std::string>(COUNTER_VALUE));
-		ASSERT_STREQ(std::string(PREFIX + '.' + COUNTER_NAME + ".count").c_str(), name.c_str());
+	void sendCounter(const string& name, const string& actual_value,
+			uint64_t timestamp) {
+		string expected_value(to_string(COUNTER_VALUE));
+		ASSERT_STREQ(string(PREFIX + '.' + COUNTER_NAME + ".count").c_str(), name.c_str());
 		ASSERT_STREQ(expected_value.c_str(), actual_value.c_str());
 	}
 
-	void sendHistogram(const std::string& name, const std::string& value,
-			boost::uint64_t timestamp) {
+	void sendHistogram(const string& name, const string& value,
+			uint64_t timestamp) {
 
 	}
 
-	void sendMeter(const std::string& name, const std::string& value,
-			boost::uint64_t timestamp) {
+	void sendMeter(const string& name, const string& value,
+			uint64_t timestamp) {
 
 	}
 
-	void sendTimer(const std::string& name, const std::string& value,
-			boost::uint64_t timestamp) {
+	void sendTimer(const string& name, const string& value,
+			uint64_t timestamp) {
 
 	}
 };
@@ -139,10 +138,10 @@ TEST(graphitereporter, gaugetest) {
 
 	GraphiteReporter graphite_reporter(metric_registry,
 			graphite_sender, PREFIX,
-			boost::chrono::seconds(1));
+			chrono::seconds(1));
 
-	graphite_reporter.start(boost::chrono::milliseconds(100));
-	boost::this_thread::sleep(boost::posix_time::milliseconds(150));
+	graphite_reporter.start(chrono::milliseconds(100));
+	usleep(150*1000);
 	graphite_reporter.stop();
 }
 
@@ -156,10 +155,10 @@ TEST(graphitereporter, countertest) {
 
 	GraphiteReporter graphite_reporter(metric_registry,
 			graphite_sender, PREFIX,
-			boost::chrono::seconds(1));
+			chrono::seconds(1));
 
-	graphite_reporter.start(boost::chrono::milliseconds(100));
-	boost::this_thread::sleep(boost::posix_time::milliseconds(150));
+	graphite_reporter.start(chrono::milliseconds(100));
+	usleep(150*1000);
 	graphite_reporter.stop();
 }
 

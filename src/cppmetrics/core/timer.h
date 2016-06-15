@@ -17,11 +17,11 @@
 #define TIMER_H_
 
 #include <string>
-#include <boost/chrono.hpp>
-#include <boost/cstdint.hpp>
-#include <boost/function.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/shared_ptr.hpp>
+//#include <boost/chrono.hpp>
+//#include <boost/cstdint.hpp>
+#include <functional>
+//#include <boost/scoped_ptr.hpp>
+//#include <boost/shared_ptr.hpp>
 
 #include "cppmetrics/core/metered.h"
 #include "cppmetrics/core/metric.h"
@@ -48,7 +48,7 @@ public:
     /**
      * @returns the number of events that have been measured.
      */
-    virtual boost::uint64_t getCount() const;
+    virtual uint64_t getCount() const;
 
     /**
      * @return the fifteen-minute exponentially-weighted moving average rate at which events have
@@ -87,7 +87,7 @@ public:
      * Adds a recorded duration.
      * @param duration the length of the duration in nanos.
      */
-    void update(boost::chrono::nanoseconds duration);
+    void update(std::chrono::nanoseconds duration);
 
     /**
      * Creates a new TimerContext instance that measures the duration and updates the
@@ -96,21 +96,21 @@ public:
      * @note The TimerContextPtr should not be shared.
      */
     TimerContextPtr timerContextPtr() {
-        return boost::shared_ptr<TimerContext>(new TimerContext(*this));
+        return std::shared_ptr<TimerContext>(new TimerContext(*this));
     }
 
     /**
      * Times the duration of a function that will be executed internally and updates the duration.
      * @param The fn to be timed.
      */
-    void time(boost::function<void()> fn);
+    void time(std::function<void()> fn);
 
 private:
     Meter meter_; /**< The underlying meter object */
     Histogram histogram_; /**< The underlying histogram object */
 };
 
-typedef boost::shared_ptr<Timer> TimerPtr;
+typedef std::shared_ptr<Timer> TimerPtr;
 
 } /* namespace core */
 } /* namespace cppmetrics */

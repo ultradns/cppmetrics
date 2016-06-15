@@ -16,15 +16,15 @@
 #ifndef SNAPSHOT_H_
 #define SNAPSHOT_H_
 
-#include <boost/cstdint.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_ptr.hpp>
+//#include <boost/cstdint.hpp>
+//#include <shared_ptr>
+//#include <scoped_ptr>
 #include <vector>
 
 namespace cppmetrics {
 namespace core {
 
-typedef std::vector<boost::int64_t> ValueVector;
+typedef std::vector<int64_t> ValueVector;
 
 /**
  * A statistical snapshot of a {@link Sample}.
@@ -120,7 +120,7 @@ private:
     ValueVector values_;
 };
 
-typedef boost::shared_ptr<Snapshot> SnapshotPtr;
+typedef std::shared_ptr<Snapshot> SnapshotPtr;
 
 } /* namespace core */
 } /* namespace cppmetrics */

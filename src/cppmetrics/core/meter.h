@@ -16,10 +16,10 @@
 #ifndef METER_H_
 #define METER_H_
 
-#include <boost/chrono.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/atomic.hpp>
+#include <chrono>
+//#include <shared_ptr.hpp>
+#include "scoped_ptr.h"
+#include <atomic>
 #include "cppmetrics/core/metered.h"
 
 namespace cppmetrics {
@@ -35,14 +35,14 @@ public:
      * Creates a meter with the specified rate unit.
      * @param rate_unit The rate unit in nano seconds.
      */
-    Meter(boost::chrono::nanoseconds rate_unit = boost::chrono::seconds(1));
+    Meter(std::chrono::nanoseconds rate_unit = std::chrono::seconds(1));
 
     virtual ~Meter();
 
     /**
      * @returns the number of events that have been marked.
      */
-    virtual boost::uint64_t getCount() const;
+    virtual uint64_t getCount() const;
 
     /**
      * @return the fifteen-minute exponentially-weighted moving average rate at which events have
@@ -71,14 +71,14 @@ public:
      * Mark the occurrence of a given number of events.
      * @param n the number of events with the default being 1.
      */
-    void mark(boost::uint64_t n = 1);
+    void mark(uint64_t n = 1);
 
 private:
     class Impl;
-    boost::scoped_ptr<Impl> impl_;
+    scoped_ptr<Impl> impl_;
 };
 
-typedef boost::shared_ptr<Meter> MeterPtr;
+typedef std::shared_ptr<Meter> MeterPtr;
 
 } /* namespace core */
 } /* namespace cppmetrics */

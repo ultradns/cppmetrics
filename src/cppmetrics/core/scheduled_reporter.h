@@ -55,7 +55,7 @@ public:
      *  interval.
      * @param period the amount of time between polls in milliseconds.
      */
-    virtual void start(boost::chrono::milliseconds period);
+    virtual void start(std::chrono::milliseconds period);
 
     /**
      * Shuts down the background thread that polls/publishes the metrics from the registry.
@@ -71,7 +71,7 @@ protected:
      * @param rate_unit a unit of time used for publishing the rate metrics like meter.
      */
     ScheduledReporter(MetricRegistryPtr registry,
-            boost::chrono::milliseconds rate_unit);
+            std::chrono::milliseconds rate_unit);
 
     /**
      * Converts the duration value to the milliseconds (from nanoseconds).

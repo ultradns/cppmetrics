@@ -16,10 +16,10 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
-#include <boost/chrono.hpp>
+#include <chrono>
 namespace cppmetrics {
 namespace core {
-typedef boost::chrono::high_resolution_clock Clock;
+typedef std::chrono::high_resolution_clock Clock;
 }
 }
 

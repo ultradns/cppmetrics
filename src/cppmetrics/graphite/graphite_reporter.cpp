@@ -13,9 +13,9 @@
  *      Author: vpoliboy
  */
 
-#include <boost/foreach.hpp>
-#include <boost/lexical_cast.hpp>
-#include <glog/logging.h>
+//#include <boost/foreach.hpp>
+//#include <boost/lexical_cast.hpp>
+//#include <glog/logging.h>
 #include "cppmetrics/core/utils.h"
 #include "cppmetrics/graphite/graphite_reporter.h"
 
@@ -25,7 +25,7 @@ namespace graphite {
 GraphiteReporter::GraphiteReporter(core::MetricRegistryPtr registry,
         GraphiteSenderPtr sender,
         std::string prefix,
-        boost::chrono::milliseconds rate_unit) :
+        std::chrono::milliseconds rate_unit) :
         ScheduledReporter(registry, rate_unit), sender_(sender), prefix_(prefix) {
 
 }
@@ -34,10 +34,16 @@ GraphiteReporter::~GraphiteReporter() {
     // TODO Auto-generated destructor stub
 }
 
-template<typename T>
-std::string GraphiteReporter::format(T o) {
-    return boost::lexical_cast<std::string>(o);
+
+//std::string GraphiteReporter::format(double o) {
+//    return std::to_string(o);
+//}
+std::string GraphiteReporter::format(int o) {
+    return std::to_string(o);
 }
+//std::string GraphiteReporter::format(uint64_t o) {
+//    return std::to_string(o);
+//}
 
 void GraphiteReporter::report(core::CounterMap counter_map,
         core::HistogramMap histogram_map,
@@ -45,41 +51,42 @@ void GraphiteReporter::report(core::CounterMap counter_map,
         core::TimerMap timer_map,
         core::GaugeMap gauge_map) {
 
-    boost::uint64_t timestamp = core::get_seconds_from_epoch();
+    uint64_t timestamp = core::get_seconds_from_epoch();
 
     try {
         sender_->connect();
 
-        BOOST_FOREACH(const core::CounterMap::value_type& kv, counter_map) {
+        for(const core::CounterMap::value_type& kv : counter_map) {
             reportCounter(kv.first, kv.second, timestamp);
         }
 
-        BOOST_FOREACH(const core::HistogramMap::value_type& kv, histogram_map) {
+        for(const core::HistogramMap::value_type& kv: histogram_map) {
             reportHistogram(kv.first, kv.second, timestamp);
         }
 
-        BOOST_FOREACH(const core::MeteredMap::value_type& kv, meter_map) {
+        for(const core::MeteredMap::value_type& kv: meter_map) {
             reportMeter(kv.first, kv.second, timestamp);
         }
 
-        BOOST_FOREACH(const core::TimerMap::value_type& kv, timer_map) {
+        for(const core::TimerMap::value_type& kv: timer_map) {
             reportTimer(kv.first, kv.second, timestamp);
         }
 
-        BOOST_FOREACH(const core::GaugeMap::value_type& kv, gauge_map) {
+        for(const core::GaugeMap::value_type& kv: gauge_map) {
             reportGauge(kv.first, kv.second, timestamp);
         }
         sender_->close();
     }
     catch (const std::exception& e) {
-        LOG(ERROR)<< "Exception in graphite reporting: " << e.what();
+  //TODO: use logging      LOG(ERROR)<< "Exception in graphite reporting: " << e.what();
+    	fprintf(stderr, "Exception in graphite reporting: %s", e.what());
         sender_->close();
     }
 }
 
 void GraphiteReporter::reportTimer(const std::string& name,
         core::TimerPtr timer,
-        boost::uint64_t timestamp) {
+        uint64_t timestamp) {
     core::SnapshotPtr snapshot = timer->getSnapshot();
 
     sender_->send(prefix(name, "getMax"),
@@ -108,13 +115,13 @@ void GraphiteReporter::reportTimer(const std::string& name,
             format(convertDurationUnit(snapshot->get999thPercentile())),
             timestamp);
 
-    reportMeter(name, boost::static_pointer_cast<core::Metered>(timer),
+    reportMeter(name, timer,
             timestamp);
 }
 
 void GraphiteReporter::reportMeter(const std::string& name,
         core::MeteredPtr meter,
-        boost::uint64_t timestamp) {
+        uint64_t timestamp) {
 
     sender_->send(prefix(name, "count"), format(meter->getCount()), timestamp);
     sender_->send(prefix(name, "m1_rate"),
@@ -129,7 +136,7 @@ void GraphiteReporter::reportMeter(const std::string& name,
 
 void GraphiteReporter::reportHistogram(const std::string& name,
         core::HistogramPtr histogram,
-        boost::uint64_t timestamp) {
+        uint64_t timestamp) {
     core::SnapshotPtr snapshot = histogram->getSnapshot();
 
     sender_->send(prefix(name, "count"), format(histogram->getCount()),
@@ -156,14 +163,14 @@ void GraphiteReporter::reportHistogram(const std::string& name,
 
 void GraphiteReporter::reportCounter(const std::string& name,
         core::CounterPtr counter,
-        boost::uint64_t timestamp) {
+        uint64_t timestamp) {
     sender_->send(prefix(name, "count"), format(counter->getCount()),
             timestamp);
 }
 
 void GraphiteReporter::reportGauge(const std::string& name,
         core::GaugePtr gauge,
-        boost::uint64_t timestamp) {
+        uint64_t timestamp) {
     const std::string value = format(gauge->getValue());
     sender_->send(prefix(name), value, timestamp);
 }

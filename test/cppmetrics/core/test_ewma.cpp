@@ -33,51 +33,51 @@ TEST(ewma, oneMinuteTestWithValueOf3) {
     EWMA ewma = EWMA::oneMinuteEWMA();
     ewma.update(3);
     ewma.tick();
-    ASSERT_NEAR(0.6, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.6, ewma.getRate(std::chrono::seconds(1)), 0.000001);
     elapse_minute(ewma);
-    ASSERT_NEAR(0.22072766, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.22072766, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.08120117, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.08120117, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.02987224, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.02987224, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.01098938, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.01098938, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00404277, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00404277, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00148725, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00148725, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00054713, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00054713, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00020128, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00020128, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00007405, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00007405, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00002724, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00002724, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00001002, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00001002, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00000369, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00000369, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00000136, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00000136, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00000050, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00000050, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.00000018, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.00000018, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 }
 
 TEST(ewma, FiveMinuteTestWithValueOf3) {
@@ -85,52 +85,52 @@ TEST(ewma, FiveMinuteTestWithValueOf3) {
     ewma.update(3);
     ewma.tick();
 
-    ASSERT_NEAR(0.6, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.6, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.49123845, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.49123845, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.40219203, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.40219203, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.32928698, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.32928698, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.26959738, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.26959738, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.22072766, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.22072766, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.18071653, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.18071653, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.14795818, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.14795818, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.12113791, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.12113791, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.09917933, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.09917933, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.08120117, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.08120117, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.06648190, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.06648190, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.05443077, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.05443077, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.04456415, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.04456415, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.03648604, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.03648604, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.02987224, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.02987224, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 }
 
 TEST(ewma, FifteenMinuteTestWithValueOf3) {
@@ -138,52 +138,52 @@ TEST(ewma, FifteenMinuteTestWithValueOf3) {
     ewma.update(3);
     ewma.tick();
 
-    ASSERT_NEAR(0.6, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.6, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.56130419, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.56130419, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.52510399, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.52510399, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.49123845, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.49123845, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.45955700, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.45955700, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.42991879, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.42991879, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.40219203, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.40219203, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.37625345, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.37625345, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.35198773, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.35198773, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.32928698, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.32928698, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.30805027, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.30805027, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.28818318, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.28818318, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.26959738, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.26959738, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.25221023, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.25221023, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.23594443, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.23594443, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 
     elapse_minute(ewma);
-    ASSERT_NEAR(0.22072766, ewma.getRate(boost::chrono::seconds(1)), 0.000001);
+    ASSERT_NEAR(0.22072766, ewma.getRate(std::chrono::seconds(1)), 0.000001);
 }
 
 }
