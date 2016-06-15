@@ -35,13 +35,11 @@ void GraphiteSenderTCP::connect() {
 	try{
 		socket_.connect(addr);
 	}catch(Poco::Exception& ex){
-		printf("GraphiteSenderTCP::connect() ex: %s\n", ex.message().c_str());
+		fprintf(stderr,"GraphiteSenderTCP::connect() ex: %s\n", ex.message().c_str());
 		throw std::runtime_error(std::string("Connect() error, reason: ") + ex.message());
 	}
-//    connected_ = !ec;
-//    if (!connected_) {
-//        throw std::runtime_error("Connect() error, reason: " + ec.message());
-//    }
+
+	connected_ = true;
 }
 
 //noamc: current implementation uses blocking send

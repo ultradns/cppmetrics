@@ -34,16 +34,13 @@ GraphiteReporter::~GraphiteReporter() {
     // TODO Auto-generated destructor stub
 }
 
-
+// currently support only integer values until I get over the syntax
 //std::string GraphiteReporter::format(double o) {
 //    return std::to_string(o);
 //}
 std::string GraphiteReporter::format(int o) {
     return std::to_string(o);
 }
-//std::string GraphiteReporter::format(uint64_t o) {
-//    return std::to_string(o);
-//}
 
 void GraphiteReporter::report(core::CounterMap counter_map,
         core::HistogramMap histogram_map,
@@ -79,7 +76,7 @@ void GraphiteReporter::report(core::CounterMap counter_map,
     }
     catch (const std::exception& e) {
   //TODO: use logging      LOG(ERROR)<< "Exception in graphite reporting: " << e.what();
-    	fprintf(stderr, "Exception in graphite reporting: %s", e.what());
+    	fprintf(stderr, "Exception in graphite reporting: %s\n", e.what());
         sender_->close();
     }
 }
