@@ -16,9 +16,8 @@
 #ifndef SNAPSHOT_H_
 #define SNAPSHOT_H_
 
-//#include <boost/cstdint.hpp>
-//#include <shared_ptr>
-//#include <scoped_ptr>
+
+#include <memory>
 #include <vector>
 
 namespace cppmetrics {

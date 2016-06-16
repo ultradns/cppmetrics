@@ -16,7 +16,7 @@
 #ifndef METRIC_H_
 #define METRIC_H_
 
-//#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace cppmetrics {
 namespace core {

@@ -15,6 +15,8 @@
 
 
 #include <algorithm>
+#include <memory>
+
 #include "cppmetrics/core/exp_decay_sample.h"
 #include "cppmetrics/core/utils.h"
 

@@ -16,7 +16,7 @@
 #ifndef GRAPHITE_SENDER_H_
 #define GRAPHITE_SENDER_H_
 
-//#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace cppmetrics {
 namespace graphite {

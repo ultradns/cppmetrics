@@ -16,16 +16,13 @@
 #ifndef EXP_DECAY_SAMPLE_H_
 #define EXP_DECAY_SAMPLE_H_
 
-//#include <vector>
+
 #include <atomic>
-//#include <mutex>
+#include <memory>
+#include <mutex>
 #include <map>
 #include <random>
-//#include <thread/lock_guard.hpp>
-//#include <random/mersenne_twister.hpp>
-//#include <random/uniform_real_distribution.hpp>
-//#include <date_time/posix_time/posix_time.hpp>
-//#include <scoped_ptr.hpp>
+
 #include "cppmetrics/core/types.h"
 #include "cppmetrics/core/sample.h"
 

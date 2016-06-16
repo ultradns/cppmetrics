@@ -16,13 +16,7 @@
 #ifndef SIMPLE_THREAD_POOL_EXECUTOR_H_
 #define SIMPLE_THREAD_POOL_EXECUTOR_H_
 
-#include <functional>
-//#include <boost/scoped_ptr.hpp>
-//#include <boost/chrono/duration.hpp>
-//#include <boost/atomic.hpp>
-//#include <boost/thread/thread.hpp>
-//#include <boost/asio.hpp>
-//#include <boost/bind.hpp>
+#include <atomic>
 
 namespace cppmetrics {
 namespace concurrent {

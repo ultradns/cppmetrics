@@ -134,8 +134,8 @@ public:
 	}
 };
 
+// show how to use the wrapper class (in house party)
 CppMetricsWrapper M;
-
 void demo_cppmetrics2(){
 
 	M.configureAndStartGraphiteReporter("localhost", 2003, 1 , "_");
@@ -147,6 +147,7 @@ void demo_cppmetrics2(){
 }
 
 int main(){
+	printf(" run a graphite server with:\nwhile [ 1 ]; do nc -l 2003;echo ===; done\n");
 	//demo_cppmetrics();
 	demo_cppmetrics2();
 	usleep(3*1000*1000);

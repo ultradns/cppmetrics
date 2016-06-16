@@ -16,14 +16,11 @@
 #ifndef UNIFORM_SAMPLE_H_
 #define UNIFORM_SAMPLE_H_
 
-//#include <vector>
-//#include <iterator>
+
 #include <atomic>
-//#include <mutex>
-//#include <thread>
+#include <mutex>
 #include <random>
-//#include <random/mersenne_twister.hpp>
-//#include <random/uniform_int_distribution.hpp>
+
 #include "cppmetrics/core/sample.h"
 
 namespace cppmetrics {

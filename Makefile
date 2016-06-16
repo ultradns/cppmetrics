@@ -68,16 +68,19 @@ TEST_SRCS= test/cppmetrics/concurrent/test_simple_scheduled_thread_pool_executor
 			# test/cppmetrics/concurrent/test_simple_thread_pool_executor.cpp
 TEST_OBJS = $(patsubst %.cpp,%.o, $(patsubst %.c,%.o,$(TEST_SRCS)))
 
+all: package
+
 %.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $< -MMD -MF $(@:.o=.d)
 	
-all: package
+
 
 package: $(OBJS)
 	ar -rsv $(LIBNAME) $(OBJS)
 
 clean:
-	rm  -f src/cppmetrics/*/*.{o,d} $(LIBNAME) test/cppmetrics/*/*.{o,d} test_cppmetrics
+	# I don't know why, but in order to get the wildcard expansion, you need to open bash here
+	bash -c 'rm -f src/cppmetrics/*/*.{o,d} $(LIBNAME) test/cppmetrics/*/*.{o,d} test_cppmetrics'
 	
 main: package
 	$(CXX)  $(CPPFLAGS) $(CXXFLAGS) -g -O0 src/testMain.cpp -o sampleApp -L. -lcppmetrics_hp $(LDLIBS)
@@ -85,3 +88,7 @@ main: package
 	
 test: $(TEST_OBJS)
 	$(CXX)   -g -O0   -lPocoFoundation -o test_cppmetrics -I $(GTEST_DIR)/googletest/include $^ $(LDFLAGS) -L. -lcppmetrics_hp $(LDLIBS)  -L $(GTEST_DIR)/googletest -lgtest -lgtest_main
+
+
+install:
+	./install_the_output.sh

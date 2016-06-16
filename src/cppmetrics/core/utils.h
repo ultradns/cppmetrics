@@ -16,25 +16,23 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-#include <chrono>
-//#include <boost/date_time/posix_time/posix_time.hpp>
-//#include <boost/date_time/time_facet.hpp>
+#include <time.h>
 #include "cppmetrics/core/types.h"
 
 namespace cppmetrics {
 namespace core {
 
-inline std::chrono::microseconds get_duration_from_epoch() {
-
-    return std::chrono::system_clock::now().time_since_epoch();
-}
+//inline time_t get_duration_from_epoch() {
+//
+//    return std::chrono::system_clock::now().time_since_epoch();
+//}
 
 inline uint64_t get_millis_from_epoch() {
-    return (get_duration_from_epoch()/1000).count();
+    return time(0)*1000;
 }
 
 inline uint64_t get_seconds_from_epoch() {
-    return (get_duration_from_epoch()/1000000).count();
+    return time(0);
 }
 //
 //inline std::string utc_timestamp(const std::locale& current_locale) {
