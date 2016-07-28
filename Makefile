@@ -41,6 +41,7 @@ SRCS=    src/cppmetrics/core/histogram.cpp\
   src/cppmetrics/core/exp_decay_sample.cpp\
   src/cppmetrics/core/snapshot.cpp\
   src/cppmetrics/graphite/graphite_sender_tcp.cpp\
+   src/cppmetrics/graphite/graphite_sender_udp.cpp\
   src/cppmetrics/graphite/graphite_reporter.cpp\
   src/cppmetrics/core/console_reporter.cpp\
   src/cppmetrics/concurrent/simple_scheduled_thread_pool_executor.cpp
