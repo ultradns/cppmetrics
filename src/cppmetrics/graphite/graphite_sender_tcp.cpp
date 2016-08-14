@@ -14,6 +14,7 @@
  */
 
 #include <sstream>
+#include "Poco/Net/NetException.h"
 #include "cppmetrics/graphite/graphite_sender_tcp.h"
 
 namespace cppmetrics {
@@ -34,9 +35,8 @@ void GraphiteSenderTCP::connect() {
 	Poco::Net::SocketAddress addr(host_, port_);
 	try{
 		socket_.connect(addr);
-	}catch(Poco::Exception& ex){
-		fprintf(stderr,"GraphiteSenderTCP::connect() ex: %s\n", ex.message().c_str());
-		throw std::runtime_error(std::string("Connect() error, reason: ") + ex.message());
+	}catch(Poco::Net::NetException& ex){
+		throw std::runtime_error(std::string("Connect() error, reason: ") + ex.displayText());
 	}
 
 	connected_ = true;

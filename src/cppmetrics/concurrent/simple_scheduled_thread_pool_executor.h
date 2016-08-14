@@ -63,18 +63,6 @@ public:
     virtual void scheduleAtFixedRate(core::Reporter* command,
             std::chrono::milliseconds period);
 
-    /**
-     * Executes the give task at the configured interval delay until shutdown is called. The given command
-     * is executed at a fixed delay. There can be only one task instance running at a given time.
-     * @param command The command to execute at fixed delay.
-     * @param period The time period between the end of the tasks.
-     */
-//    virtual void scheduleAtFixedDelay(std::function<void()> command,
-//            std::chrono::milliseconds period);
-
-
-//    virtual void scheduleAtFixedDelay( std::function<void()> command, void* arg,
-//                std::chrono::milliseconds period);
 
     /**
      * Shuts down the service, may or may not return immediately depending on the pending tasks.
@@ -95,15 +83,9 @@ private:
     void cancelTimers();
     void timerHandler(int error_code, size_t timer_index);
 
-//    void scheduleTimer(std::function<void()> task,
-//            std::chrono::milliseconds period, bool fixed_rate);
 
     std::atomic<bool> running_;
 
-
-
-    //typedef std::vector<Poco::Util::TimerTask> TimerTasks;
-    //TimerTasks timer_tasks_;
     Poco::Util::TimerTask* timer_task_;
     Poco::Util::Timer timer_; // a single timer
     mutable std::mutex timer_task_mutex_;

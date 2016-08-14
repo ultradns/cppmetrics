@@ -134,7 +134,7 @@ public:
 	}
 };
 
-// show how to use the wrapper class (in house party)
+// show how to use the wrapper class
 CppMetricsWrapper M;
 void demo_cppmetrics2(){
 
