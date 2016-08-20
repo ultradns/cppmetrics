@@ -16,13 +16,7 @@
 #ifndef SIMPLE_THREAD_POOL_EXECUTOR_H_
 #define SIMPLE_THREAD_POOL_EXECUTOR_H_
 
-#include <boost/function.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/chrono/duration.hpp>
-#include <boost/atomic.hpp>
-#include <boost/thread/thread.hpp>
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
+#include <atomic>
 
 namespace cppmetrics {
 namespace concurrent {
@@ -45,7 +39,7 @@ public:
      * Executes the given task in one of the threads.
      * @param task The task to be executed.
      */
-    virtual void execute(boost::function<void()> command);
+    virtual void execute(std::function<void()> command);
 
     /**
      * Shuts down the service, may or may not return immediately.
@@ -64,10 +58,10 @@ public:
     virtual bool isShutdown() const;
 
 private:
-    boost::atomic<bool> running_;
-    boost::asio::io_service io_service_;
-    boost::scoped_ptr<boost::asio::io_service::work> work_ptr_;
-    boost::thread_group thread_group_;
+    std::atomic<bool> running_;
+    //std::asio::io_service io_service_;
+    //std::scoped_ptr<std::asio::io_service::work> work_ptr_;
+    //std::thread_group thread_group_;
 };
 
 } /* namespace concurrent */

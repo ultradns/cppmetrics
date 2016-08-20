@@ -16,9 +16,9 @@
 #ifndef METRIC_REGISTRY_H_
 #define METRIC_REGISTRY_H_
 
-#include <boost/noncopyable.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_ptr.hpp>
+//#include <boost/noncopyable.hpp>
+//#include <boost/shared_ptr.hpp>
+#include "scoped_ptr.h"
 #include <string>
 #include <map>
 #include "cppmetrics/core/counter.h"
@@ -37,11 +37,11 @@ typedef std::map<std::string, TimerPtr> TimerMap;
 typedef std::map<std::string, GaugePtr> GaugeMap;
 
 class MetricRegistry;
-typedef boost::shared_ptr<MetricRegistry> MetricRegistryPtr;
+typedef std::shared_ptr<MetricRegistry> MetricRegistryPtr;
 /**
  * The thread-safe registry class for all metrics.
  */
-class MetricRegistry: boost::noncopyable {
+class MetricRegistry: noncopyable {
 public:
 
     /**
@@ -147,7 +147,7 @@ public:
 
 private:
     class Impl;
-    boost::scoped_ptr<Impl> impl_; /**< The pimpl pointer */
+    scoped_ptr<Impl> impl_; /**< The pimpl pointer */
 };
 
 } /* namespace core */

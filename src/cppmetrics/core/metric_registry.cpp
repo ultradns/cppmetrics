@@ -13,10 +13,13 @@
  *      Author: vpoliboy
  */
 
-#include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
-#include <boost/thread/shared_mutex.hpp>
-#include <boost/unordered_map.hpp>
+//#include <boost/foreach.hpp>
+//#include <boost/make_shared.hpp>
+//#include <boost/thread/shared_mutex.hpp>
+//#include <boost/unordered_map.hpp>
+#include <set>
+#include <mutex>
+#include <unordered_map>
 #include "cppmetrics/core/metric_registry.h"
 
 namespace cppmetrics {
@@ -53,9 +56,10 @@ private:
         TotalTypes
     };
 
-    mutable boost::shared_mutex metrics_mutex_; /**< mutex that protects both MetricSets and metric_names. */
+    //TODO: changed from boost::shared_mutex. need to check if valid
+    mutable std::mutex metrics_mutex_; /**< mutex that protects both MetricSets and metric_names. */
     // We should use a lock-free concurrent map implementation outside of boost.
-    typedef boost::unordered_map<std::string, MetricPtr> MetricSet;
+    typedef std::unordered_map<std::string, MetricPtr> MetricSet;
     MetricSet metric_set_[TotalTypes];
     typedef std::set<std::string> StringSet;
     StringSet metric_names_;
@@ -71,7 +75,7 @@ private:
     MetricPtr getOrAdd(MetricType metric_type, const std::string& name);
 
     template<typename MetricClass>
-    std::map<std::string, boost::shared_ptr<MetricClass> > getMetrics(const MetricSet& metric_set) const;
+    std::map<std::string, std::shared_ptr<MetricClass> > getMetrics(const MetricSet& metric_set) const;
 };
 
 MetricRegistry::Impl::Impl() {
@@ -83,15 +87,15 @@ MetricRegistry::Impl::~Impl() {
 }
 
 size_t MetricRegistry::Impl::count() const {
-    boost::shared_lock<boost::shared_mutex> read_lock(metrics_mutex_);
+    // read only. why need a lock?   boost::shared_lock<boost::shared_mutex> read_lock(metrics_mutex_);
     return metric_names_.size();
 }
 
 // RTTI is a performance overhead, should probably replace it in future.
 template<typename MetricClass>
 bool MetricRegistry::Impl::isInstanceOf(const MetricPtr& metric_ptr) const {
-    boost::shared_ptr<MetricClass> stored_metric(
-            boost::dynamic_pointer_cast<MetricClass>(metric_ptr));
+    std::shared_ptr<MetricClass> stored_metric(
+            std::dynamic_pointer_cast<MetricClass>(metric_ptr));
     return (stored_metric.get() != NULL);
 }
 
@@ -99,13 +103,13 @@ MetricPtr MetricRegistry::Impl::buildMetric(MetricType metric_type) const {
     MetricPtr metric_ptr;
     switch (metric_type) {
     case CounterType:
-        return boost::make_shared<Counter>();
+        return std::make_shared<Counter>();
     case HistogramType:
-        return boost::make_shared<Histogram>();
+        return std::make_shared<Histogram>();
     case MeterType:
-        return boost::make_shared<Meter>();
+        return std::make_shared<Meter>();
     case TimerType:
-        return boost::make_shared<Timer>();
+        return std::make_shared<Timer>();
     default:
         throw std::invalid_argument("Unknown or invalid metric type.");
     };
@@ -125,7 +129,7 @@ bool MetricRegistry::Impl::addMetric(MetricSet& metric_set,
 
 MetricPtr MetricRegistry::Impl::getOrAdd(MetricType metric_type,
         const std::string& name) {
-    boost::unique_lock<boost::shared_mutex> wlock(metrics_mutex_);
+    //TODO: std::lock<std::mutex> wlock(metrics_mutex_);
     MetricSet& metric_set(metric_set_[metric_type]);
     MetricSet::iterator itt(metric_set.find(name));
     if (itt != metric_set.end()) {
@@ -138,37 +142,37 @@ MetricPtr MetricRegistry::Impl::getOrAdd(MetricType metric_type,
 }
 
 bool MetricRegistry::Impl::addGauge(const std::string& name, GaugePtr gauge) {
-    boost::unique_lock<boost::shared_mutex> wlock(metrics_mutex_);
+	 //TODO: boost::unique_lock<boost::shared_mutex> wlock(metrics_mutex_);
     return addMetric(metric_set_[GaugeType], name, gauge);
 }
 
 CounterPtr MetricRegistry::Impl::counter(const std::string& name) {
     MetricPtr metric_ptr(getOrAdd(CounterType, name));
-    return boost::static_pointer_cast<Counter>(metric_ptr);
+    return std::static_pointer_cast<Counter>(metric_ptr);
 }
 
 HistogramPtr MetricRegistry::Impl::histogram(const std::string& name) {
     MetricPtr metric_ptr(getOrAdd(HistogramType, name));
-    return boost::static_pointer_cast<Histogram>(metric_ptr);
+    return std::static_pointer_cast<Histogram>(metric_ptr);;
 }
 
 MeterPtr MetricRegistry::Impl::meter(const std::string& name) {
     MetricPtr metric_ptr(getOrAdd(MeterType, name));
-    return boost::static_pointer_cast<Meter>(metric_ptr);
+    return std::static_pointer_cast<Meter>(metric_ptr);
 }
 
 TimerPtr MetricRegistry::Impl::timer(const std::string& name) {
     MetricPtr metric_ptr(getOrAdd(TimerType, name));
-    return boost::static_pointer_cast<Timer>(metric_ptr);
+    return std::static_pointer_cast<Timer>(metric_ptr);
 }
 
 template<typename MetricClass>
-std::map<std::string, boost::shared_ptr<MetricClass> >
+std::map<std::string, std::shared_ptr<MetricClass> >
 MetricRegistry::Impl::getMetrics(const MetricSet& metric_set) const {
-    std::map<std::string, boost::shared_ptr<MetricClass> > ret_set;
-    boost::shared_lock<boost::shared_mutex> rlock(metrics_mutex_);
-    BOOST_FOREACH (const MetricSet::value_type& kv, metric_set) {
-        ret_set[kv.first] = boost::static_pointer_cast<MetricClass>(kv.second);
+    std::map<std::string, std::shared_ptr<MetricClass> > ret_set;
+    std::lock_guard<std::mutex> rlock(metrics_mutex_);
+    for(const MetricSet::value_type& kv: metric_set) {
+        ret_set[kv.first] = std::static_pointer_cast<MetricClass>(kv.second);
     }
     return ret_set;
 }
@@ -194,7 +198,7 @@ GaugeMap MetricRegistry::Impl::getGauges() const {
 }
 
 bool MetricRegistry::Impl::removeMetric(const std::string& name) {
-    boost::unique_lock<boost::shared_mutex> wlock(metrics_mutex_);
+    //TODO boost::unique_lock<boost::shared_mutex> wlock(metrics_mutex_);
     StringSet::iterator s_itt(metric_names_.find(name));
     if (s_itt != metric_names_.end()) {
         for (size_t i = 0; i < TotalTypes; ++i) {

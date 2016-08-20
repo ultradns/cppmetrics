@@ -22,24 +22,24 @@ namespace cppmetrics {
 namespace core {
 
 static const uint64_t TICK_INTERVAL =
-        Clock::duration(boost::chrono::seconds(5)).count();
+        Clock::duration(std::chrono::seconds(5)).count();
 
 class Meter::Impl {
 public:
-    Impl(boost::chrono::nanoseconds rate_unit);
+    Impl(std::chrono::nanoseconds rate_unit);
     ~Impl();
-    boost::uint64_t getCount() const;
+    uint64_t getCount() const;
     double getFifteenMinuteRate();
     double getFiveMinuteRate();
     double getOneMinuteRate();
     double getMeanRate();
-    void mark(boost::uint64_t n);
+    void mark(uint64_t n);
 
 private:
-    const boost::chrono::nanoseconds rate_unit_;
-    boost::atomic<boost::uint64_t> count_;
+    const std::chrono::nanoseconds rate_unit_;
+    std::atomic<uint64_t> count_;
     const Clock::time_point start_time_;
-    boost::atomic<boost::uint64_t> last_tick_;
+    std::atomic<uint64_t> last_tick_;
     internal::EWMA m1_rate_;
     internal::EWMA m5_rate_;
     internal::EWMA m15_rate_;
@@ -48,12 +48,12 @@ private:
     void tickIfNecessary();
 };
 
-Meter::Impl::Impl(boost::chrono::nanoseconds rate_unit) :
+Meter::Impl::Impl(std::chrono::nanoseconds rate_unit) :
                 rate_unit_(rate_unit),
                 count_(0),
                 start_time_(Clock::now()),
                 last_tick_(
-                        boost::chrono::duration_cast<boost::chrono::nanoseconds>(
+                        std::chrono::duration_cast<std::chrono::nanoseconds>(
                                 start_time_.time_since_epoch()).count()),
                 m1_rate_(internal::EWMA::oneMinuteEWMA()),
                 m5_rate_(internal::EWMA::fiveMinuteEWMA()),
@@ -63,7 +63,7 @@ Meter::Impl::Impl(boost::chrono::nanoseconds rate_unit) :
 Meter::Impl::~Impl() {
 }
 
-boost::uint64_t Meter::Impl::getCount() const {
+uint64_t Meter::Impl::getCount() const {
     return count_;
 }
 
@@ -83,16 +83,16 @@ double Meter::Impl::getOneMinuteRate() {
 }
 
 double Meter::Impl::getMeanRate() {
-    boost::uint64_t c = count_;
+    uint64_t c = count_;
     if (c > 0) {
-        boost::chrono::nanoseconds elapsed = boost::chrono::duration_cast<
-                boost::chrono::nanoseconds>(Clock::now() - start_time_);
+        std::chrono::nanoseconds elapsed = std::chrono::duration_cast<
+                std::chrono::nanoseconds>(Clock::now() - start_time_);
         return static_cast<double>(c * rate_unit_.count()) / elapsed.count();
     }
     return 0.0;
 }
 
-void Meter::Impl::mark(boost::uint64_t n) {
+void Meter::Impl::mark(uint64_t n) {
     tickIfNecessary();
     count_ += n;
     m1_rate_.update(n);
@@ -107,23 +107,23 @@ void Meter::Impl::tick() {
 }
 
 void Meter::Impl::tickIfNecessary() {
-    boost::uint64_t old_tick = last_tick_;
-    boost::uint64_t cur_tick =
-            boost::chrono::duration_cast<boost::chrono::nanoseconds>(
+    uint64_t old_tick = last_tick_;
+    uint64_t cur_tick =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
                     Clock::now().time_since_epoch()).count();
-    boost::uint64_t age = cur_tick - old_tick;
+    uint64_t age = cur_tick - old_tick;
     if (age > TICK_INTERVAL) {
-        boost::uint64_t new_tick = cur_tick - age % TICK_INTERVAL;
+        uint64_t new_tick = cur_tick - age % TICK_INTERVAL;
         if (last_tick_.compare_exchange_strong(old_tick, new_tick)) {
-            boost::uint64_t required_ticks = age / TICK_INTERVAL;
-            for (boost::uint64_t i = 0; i < required_ticks; i++) {
+            uint64_t required_ticks = age / TICK_INTERVAL;
+            for (uint64_t i = 0; i < required_ticks; i++) {
                 tick();
             }
         }
     }
 }
 
-Meter::Meter(boost::chrono::nanoseconds rate_unit) :
+Meter::Meter(std::chrono::nanoseconds rate_unit) :
         impl_(new Meter::Impl(rate_unit)) {
 }
 
@@ -131,7 +131,7 @@ Meter::~Meter() {
 
 }
 
-boost::uint64_t Meter::getCount() const {
+uint64_t Meter::getCount() const {
     return impl_->getCount();
 }
 
@@ -151,7 +151,7 @@ double Meter::getMeanRate() {
     return impl_->getMeanRate();
 }
 
-void Meter::mark(boost::uint64_t n) {
+void Meter::mark(uint64_t n) {
     impl_->mark(n);
 }
 

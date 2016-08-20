@@ -14,55 +14,50 @@
  */
 
 #include <sstream>
-#include <boost/lexical_cast.hpp>
+#include "Poco/Net/NetException.h"
 #include "cppmetrics/graphite/graphite_sender_tcp.h"
 
 namespace cppmetrics {
 namespace graphite {
 
 GraphiteSenderTCP::GraphiteSenderTCP(const std::string& host,
-        boost::uint32_t port) :
+        uint16_t port) :
                 connected_(false),
                 host_(host),
-                port_(boost::lexical_cast<std::string>(port)) {
+                port_(port) {
 }
 
 GraphiteSenderTCP::~GraphiteSenderTCP() {
 }
 
 void GraphiteSenderTCP::connect() {
-    io_service_.reset(new boost::asio::io_service());
 
-    boost::asio::ip::tcp::resolver resolver(*io_service_);
-    boost::asio::ip::tcp::resolver::query query(host_, port_);
-    boost::asio::ip::tcp::resolver::iterator iterator = resolver.resolve(query);
+	Poco::Net::SocketAddress addr(host_, port_);
+	try{
+		socket_.connect(addr);
+	}catch(Poco::Net::NetException& ex){
+		throw std::runtime_error(std::string("Connect() error, reason: ") + ex.displayText());
+	}
 
-    socket_.reset(new boost::asio::ip::tcp::socket(*io_service_));
-    boost::system::error_code ec;
-    boost::asio::connect(*socket_, iterator, ec);
-    connected_ = !ec;
-    if (!connected_) {
-        throw std::runtime_error("Connect() error, reason: " + ec.message());
-    }
+	connected_ = true;
 }
 
+//noamc: current implementation uses blocking send
 void GraphiteSenderTCP::send(const std::string& name,
         const std::string& value,
-        boost::uint64_t timestamp) {
+        uint64_t timestamp) {
     if (!connected_) {
         throw std::runtime_error("Graphite server connection not established.");
     }
     std::ostringstream ostr;
     ostr << name << ' ' << value << ' ' << timestamp << std::endl;
     std::string graphite_str(ostr.str());
-    boost::asio::write(*socket_,
-            boost::asio::buffer(graphite_str, graphite_str.size()));
+    socket_.sendBytes(graphite_str.c_str(), graphite_str.size() );
 }
 
 void GraphiteSenderTCP::close() {
     connected_ = false;
-    socket_.reset();
-    io_service_.reset();
+    socket_.close();
 }
 
 } /* namespace graphite */

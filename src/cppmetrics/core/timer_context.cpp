@@ -33,14 +33,14 @@ void TimerContext::reset() {
     start_time_ = Clock::now();
 }
 
-boost::chrono::nanoseconds TimerContext::stop() {
+std::chrono::nanoseconds TimerContext::stop() {
     if (active_) {
-        boost::chrono::nanoseconds dur = Clock::now() - start_time_;
+        std::chrono::nanoseconds dur = Clock::now() - start_time_;
         timer_.update(dur);
         active_ = false;
         return dur;
     }
-    return boost::chrono::nanoseconds(0);
+    return std::chrono::nanoseconds(0);
 }
 
 } /* namespace core */

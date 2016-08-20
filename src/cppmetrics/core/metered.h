@@ -16,10 +16,10 @@
 #ifndef METERED_H_
 #define METERED_H_
 
-#include <boost/shared_ptr.hpp>
-#include <boost/cstdint.hpp>
+//#include <boost/shared_ptr.hpp>
+//#include <boost/cstdint.hpp>
 #include <string>
-#include <boost/chrono.hpp>
+#include <chrono>
 #include "cppmetrics/core/metric.h"
 
 namespace cppmetrics {
@@ -35,7 +35,7 @@ public:
     /**
      * @returns the number of events that have been marked.
      */
-    virtual boost::uint64_t getCount() const = 0;
+    virtual uint64_t getCount() const = 0;
     /**
      * @return the fifteen-minute exponentially-weighted moving average rate at which events have
      *         occurred since the meter was created.
@@ -57,7 +57,7 @@ public:
     virtual double getMeanRate() = 0;
 };
 
-typedef boost::shared_ptr<Metered> MeteredPtr;
+typedef std::shared_ptr<Metered> MeteredPtr;
 
 } /* namespace core */
 } /* namespace cppmetrics */

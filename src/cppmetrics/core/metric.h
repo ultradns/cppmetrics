@@ -16,7 +16,7 @@
 #ifndef METRIC_H_
 #define METRIC_H_
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace cppmetrics {
 namespace core {
@@ -32,7 +32,7 @@ public:
 inline Metric::~Metric() {
 }
 
-typedef boost::shared_ptr<Metric> MetricPtr;
+typedef std::shared_ptr<Metric> MetricPtr;
 
 } /* namespace core */
 } /* namespace cppmetrics */

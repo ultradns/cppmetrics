@@ -16,13 +16,11 @@
 #ifndef UNIFORM_SAMPLE_H_
 #define UNIFORM_SAMPLE_H_
 
-#include <vector>
-#include <iterator>
-#include <boost/atomic.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/lock_guard.hpp>
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int_distribution.hpp>
+
+#include <atomic>
+#include <mutex>
+#include <random>
+
 #include "cppmetrics/core/sample.h"
 
 namespace cppmetrics {
@@ -39,7 +37,7 @@ public:
      * Creates a new {@link UniformReservoir}.
      * @param size the number of samples to keep in the sampling reservoir
      */
-    UniformSample(boost::uint32_t reservoirSize = DEFAULT_SAMPLE_SIZE);
+    UniformSample(uint32_t reservoirSize = DEFAULT_SAMPLE_SIZE);
     virtual ~UniformSample();
 
     /**
@@ -51,13 +49,13 @@ public:
      * Returns the number of values recorded.
      * @return the number of values recorded
      */
-    virtual boost::uint64_t size() const;
+    virtual uint64_t size() const;
 
     /**
      * Adds a new recorded value to the sample.
      * @param value a new recorded value
      */
-    virtual void update(boost::int64_t value);
+    virtual void update(int64_t value);
 
     /**
      * Returns a snapshot of the sample's values.
@@ -66,15 +64,15 @@ public:
     virtual SnapshotPtr getSnapshot() const;
 
     /**< The Maximum sample size at any given time. */
-    static const boost::uint64_t DEFAULT_SAMPLE_SIZE;
+    static const uint64_t DEFAULT_SAMPLE_SIZE;
 private:
-    boost::uint64_t getRandom(boost::uint64_t count) const;
-    const boost::uint64_t reservoir_size_;
-    boost::atomic<boost::uint64_t> count_;
-    typedef std::vector<boost::int64_t> Int64Vector;
+    uint64_t getRandom(uint64_t count) const;
+    const uint64_t reservoir_size_;
+    std::atomic<uint64_t> count_;
+    typedef std::vector<int64_t> Int64Vector;
     Int64Vector values_;
-    mutable boost::mt11213b rng_;
-    mutable boost::mutex mutex_;
+    mutable std::default_random_engine rng_;
+    mutable std::mutex mutex_;
 };
 
 } /* namespace core */

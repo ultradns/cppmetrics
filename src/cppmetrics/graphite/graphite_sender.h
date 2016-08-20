@@ -16,7 +16,7 @@
 #ifndef GRAPHITE_SENDER_H_
 #define GRAPHITE_SENDER_H_
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace cppmetrics {
 namespace graphite {
@@ -32,7 +32,7 @@ public:
     /**
      * Connects to the graphite sender
      * @return True on success, false otherwise.
-     * @throws boost::system_error if there is a problem.
+     * @throws std::system_error if there is a problem.
      */
     virtual void connect() = 0;
 
@@ -42,11 +42,11 @@ public:
      * @param value The value of the metric
      * @param timestamp The timestamp of the metric.
      * @return True on success false otherwise.
-     * @throws boost::system_error if there is a problem.
+     * @throws std::system_error if there is a problem.
      */
     virtual void send(const std::string& name,
             const std::string& value,
-            boost::uint64_t timestamp) = 0;
+            uint64_t timestamp) = 0;
 
     /**
      * Closes the connection.
@@ -54,7 +54,7 @@ public:
     virtual void close() = 0;
 };
 
-typedef boost::shared_ptr<GraphiteSender> GraphiteSenderPtr;
+typedef std::shared_ptr<GraphiteSender> GraphiteSenderPtr;
 
 } /* namespace graphite */
 } /* namespace cppmetrics */

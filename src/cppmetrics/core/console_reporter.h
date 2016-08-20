@@ -22,9 +22,9 @@ namespace cppmetrics {
 namespace core {
 
 /*
- *  A GLOG console reporter that periodically logs the metric values.
+ *  A GLOG/POCO console reporter that periodically logs the metric values.
  */
-class ConsoleReporter: public ScheduledReporter, boost::noncopyable {
+class ConsoleReporter: public ScheduledReporter, noncopyable {
 public:
 
     /**
@@ -35,7 +35,7 @@ public:
      */
     ConsoleReporter(MetricRegistryPtr registry,
             std::ostream& ostr,
-            boost::chrono::milliseconds rate_unit = boost::chrono::seconds(1));
+            std::chrono::milliseconds rate_unit = std::chrono::seconds(1));
     virtual ~ConsoleReporter();
 
     /**

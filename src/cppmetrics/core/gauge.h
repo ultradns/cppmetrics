@@ -16,8 +16,8 @@
 #ifndef GAUGE_H_
 #define GAUGE_H_
 
-#include <boost/shared_ptr.hpp>
-#include <boost/cstdint.hpp>
+//#include <boost/shared_ptr.hpp>
+//#include <boost/cstdint.hpp>
 #include "cppmetrics/core/metric.h"
 
 namespace cppmetrics {
@@ -36,10 +36,10 @@ public:
     /**
      * @return the current value of the guage.
      */
-    virtual boost::int64_t getValue() = 0;
+    virtual int64_t getValue() = 0;
 };
 
-typedef boost::shared_ptr<Gauge> GaugePtr;
+typedef std::shared_ptr<Gauge> GaugePtr;
 
 } /* namespace core */
 } /* namespace cppmetrics */

@@ -38,6 +38,7 @@
 #include "cppmetrics/core/types.h"
 #include "cppmetrics/graphite/graphite_sender.h"
 #include "cppmetrics/graphite/graphite_sender_tcp.h"
+#include "cppmetrics/graphite/graphite_sender_udp.h"
 #include "cppmetrics/graphite/graphite_reporter.h"
 #include "cppmetrics/core/console_reporter.h"
 

@@ -14,10 +14,7 @@
  */
 
 #include <gtest/gtest.h>
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int_distribution.hpp>
-#include <boost/thread.hpp>
-#include <boost/foreach.hpp>
+#include <random>
 #include "cppmetrics/core/timer.h"
 
 namespace cppmetrics {
@@ -25,26 +22,26 @@ namespace core {
 
 TEST(timer, initialTest) {
     Timer timer;
-    ASSERT_EQ((boost::uint64_t )0, timer.getCount());
+    ASSERT_EQ((uint64_t )0, timer.getCount());
     ASSERT_NEAR(0.0, timer.getMeanRate(), 0.000001);
     ASSERT_NEAR(0.0, timer.getOneMinuteRate(), 0.000001);
     ASSERT_NEAR(0.0, timer.getFiveMinuteRate(), 0.000001);
     ASSERT_NEAR(0.0, timer.getFifteenMinuteRate(), 0.000001);
 
-    timer.update(boost::chrono::seconds(1));
-    ASSERT_EQ((boost::uint64_t )1, timer.getCount());
+    timer.update(std::chrono::seconds(1));
+    ASSERT_EQ((std::uint64_t )1, timer.getCount());
 }
 
 TEST(timer, timerContextTest) {
     Timer timer;
-    boost::mt11213b rng;
+    std::default_random_engine rng;
     for (size_t i = 0; i < 100; ++i) {
-        boost::random::uniform_int_distribution<> uniform(10, 30);
+        std::uniform_int_distribution<> uniform(10, 30);
         size_t sleep_time = uniform(rng);
         TimerContextPtr time_context(timer.timerContextPtr());
-        boost::this_thread::sleep(boost::posix_time::milliseconds(sleep_time));
+        usleep(sleep_time*1000);
     }
-    ASSERT_EQ((boost::uint64_t )100, timer.getCount());
+    ASSERT_EQ((std::uint64_t )100, timer.getCount());
     SnapshotPtr snapshot = timer.getSnapshot();
     // On jenkins builds, when there is lot of load, the duration of the sleep
     // in the timerContextTest takes more than the 20 ns. This is to eliminate
@@ -82,12 +79,12 @@ TEST(timer, timerContextTest) {
     ASSERT_LE(25, static_cast<int>(timer.getMeanRate()));
     ASSERT_GE(55, static_cast<int>(timer.getMeanRate()));
     ASSERT_LE(
-            boost::chrono::duration_cast<boost::chrono::nanoseconds>(
-                    boost::chrono::milliseconds(8)).count(),
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    std::chrono::milliseconds(8)).count(),
             static_cast<int>(snapshot->getMin()));
     ASSERT_GE(
-            boost::chrono::duration_cast<boost::chrono::nanoseconds>(
-                    boost::chrono::milliseconds(45)).count(),
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    std::chrono::milliseconds(45)).count(),
             static_cast<int>(snapshot->getMax()));
 }
 
