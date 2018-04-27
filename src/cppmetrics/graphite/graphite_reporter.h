@@ -87,8 +87,6 @@ private:
     core::MetricRegistryPtr registry_;
     GraphiteSenderPtr sender_;
     std::string prefix_;
-    boost::chrono::milliseconds rate_unit_;
-    boost::chrono::milliseconds duration_unit_;
 };
 
 } /* namespace graphite */
