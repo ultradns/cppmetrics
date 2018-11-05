@@ -63,6 +63,13 @@ void ScheduledReporter::stop() {
     }
 }
 
+void ScheduledReporter::stopNow() {
+    if (running_) {
+        running_ = false;
+        scheduled_executor_.shutdownNow();
+    }
+}
+
 std::string ScheduledReporter::rateUnitInSec() const {
     std::ostringstream ostrstr;
     ostrstr << rate_factor_;

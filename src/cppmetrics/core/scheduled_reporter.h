@@ -62,6 +62,12 @@ public:
      */
     virtual void stop();
 
+    /**
+     * Shuts down the background thread that polls/publishes the metrics from the registry, without
+     * waiting for pending tasks to complete.
+     */
+    virtual void stopNow();
+
 protected:
 
     /**

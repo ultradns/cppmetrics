@@ -65,7 +65,6 @@ void SimpleScheduledThreadPoolExecutor::cancelTimers() {
 void SimpleScheduledThreadPoolExecutor::timerHandler(
         const boost::system::error_code& ec, size_t timer_index) {
     if (!running_) {
-        LOG(ERROR)<< "Timer not started.";
         return;
     }
 
